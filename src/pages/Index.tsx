@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronDown, BookOpen, Users, Calendar, TrendingUp, Star, Brain, Search, FileText, MessageSquare, Lightbulb, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards';
+import { BouncyCardsFeatures } from '@/components/ui/bounce-card-features';
 
 const Index = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -36,45 +37,6 @@ const Index = () => {
       icon: TrendingUp,
       title: "Grade Ninja",
       description: "Track your academic progress with GPA and percentage calculators"
-    }
-  ];
-
-  const aiFeatures = [
-    {
-      icon: Search,
-      title: "AI Explanations",
-      description: "Search for any topic and let our AI create personalised explanations for you.",
-      gradient: "from-blue-500 to-cyan-500"
-    },
-    {
-      icon: Brain,
-      title: "Study Modes",
-      description: "Optimise your understanding with science-backed study modes such as Spaced Repetition.",
-      gradient: "from-purple-500 to-pink-500"
-    },
-    {
-      icon: Sparkles,
-      title: "AI Tools",
-      description: "Our AI is integrated across our platform, helping you generate learning materials and giving you feedback.",
-      gradient: "from-orange-500 to-red-500"
-    },
-    {
-      icon: FileText,
-      title: "Notes",
-      description: "Create beautiful study notes with our simple templates. Highlight and annotate them with our smart tools.",
-      gradient: "from-green-500 to-teal-500"
-    },
-    {
-      icon: MessageSquare,
-      title: "Mock Exams",
-      description: "Test your knowledge with unlimited new mock-exams and get instant feedback.",
-      gradient: "from-indigo-500 to-purple-500"
-    },
-    {
-      icon: Lightbulb,
-      title: "Textbooks",
-      description: "Find answers for every question from thousands of textbooks.",
-      gradient: "from-yellow-500 to-orange-500"
     }
   ];
 
@@ -201,29 +163,10 @@ const Index = () => {
         </div>
       </section>
 
-      {/* AI Features Section */}
+      {/* AI Features Section - Updated */}
       <section className="py-20 px-6">
         <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
-              Supercharged learning with AI.
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Experience the future of education with our AI-powered study platform
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {aiFeatures.map((feature, index) => (
-              <div key={index} className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 border border-white/30 hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 group">
-                <div className={`bg-gradient-to-br ${feature.gradient} w-14 h-14 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                  <feature.icon className="w-7 h-7 text-white" />
-                </div>
-                <h3 className="text-xl font-bold mb-4 text-gray-900">{feature.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-              </div>
-            ))}
-          </div>
+          <BouncyCardsFeatures />
         </div>
       </section>
 
