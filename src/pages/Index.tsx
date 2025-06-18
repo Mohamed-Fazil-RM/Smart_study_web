@@ -1,8 +1,8 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, BookOpen, Users, Calendar, TrendingUp, Star } from 'lucide-react';
+import { ChevronDown, BookOpen, Users, Calendar, TrendingUp, Star, Brain, Search, FileText, MessageSquare, Lightbulb, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards';
 
 const Index = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -39,24 +39,75 @@ const Index = () => {
     }
   ];
 
+  const aiFeatures = [
+    {
+      icon: Search,
+      title: "AI Explanations",
+      description: "Search for any topic and let our AI create personalised explanations for you.",
+      gradient: "from-blue-500 to-cyan-500"
+    },
+    {
+      icon: Brain,
+      title: "Study Modes",
+      description: "Optimise your understanding with science-backed study modes such as Spaced Repetition.",
+      gradient: "from-purple-500 to-pink-500"
+    },
+    {
+      icon: Sparkles,
+      title: "AI Tools",
+      description: "Our AI is integrated across our platform, helping you generate learning materials and giving you feedback.",
+      gradient: "from-orange-500 to-red-500"
+    },
+    {
+      icon: FileText,
+      title: "Notes",
+      description: "Create beautiful study notes with our simple templates. Highlight and annotate them with our smart tools.",
+      gradient: "from-green-500 to-teal-500"
+    },
+    {
+      icon: MessageSquare,
+      title: "Mock Exams",
+      description: "Test your knowledge with unlimited new mock-exams and get instant feedback.",
+      gradient: "from-indigo-500 to-purple-500"
+    },
+    {
+      icon: Lightbulb,
+      title: "Textbooks",
+      description: "Find answers for every question from thousands of textbooks.",
+      gradient: "from-yellow-500 to-orange-500"
+    }
+  ];
+
   const testimonials = [
     {
+      quote: "Smart Study transformed how I organize my computer science coursework. The AI assistance is incredible and helped me improve my grades significantly!",
       name: "Sarah Johnson",
-      university: "MIT",
-      text: "Smart Study transformed how I organize my computer science coursework. The AI assistance is incredible!",
-      rating: 5
+      title: "MIT"
     },
     {
+      quote: "Finally found a platform that understands student needs. The discussion forums are so helpful and the AI explanations are spot-on.",
       name: "Alex Chen",
-      university: "Stanford",
-      text: "Finally found a platform that understands student needs. The discussion forums are so helpful.",
-      rating: 5
+      title: "Stanford"
     },
     {
+      quote: "The schedule planner and grade tracking features helped me improve my GPA from 3.2 to 3.8 in just one semester!",
       name: "Maria Rodriguez",
-      university: "Harvard",
-      text: "The schedule planner and grade tracking features helped me improve my GPA significantly.",
-      rating: 5
+      title: "Harvard"
+    },
+    {
+      quote: "The AI-powered study modes and spaced repetition feature completely changed how I learn. My retention rate improved by 70%.",
+      name: "David Kim",
+      title: "UC Berkeley"
+    },
+    {
+      quote: "Being able to upload lecture slides and get instant flashcards and explanations saves me hours every week.",
+      name: "Emily Watson",
+      title: "Oxford"
+    },
+    {
+      quote: "The mock exams feature is a game-changer. I feel much more confident going into real exams now.",
+      name: "Michael Brown",
+      title: "Yale"
     }
   ];
 
@@ -150,8 +201,34 @@ const Index = () => {
         </div>
       </section>
 
+      {/* AI Features Section */}
+      <section className="py-20 px-6">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+              Supercharged learning with AI.
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Experience the future of education with our AI-powered study platform
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {aiFeatures.map((feature, index) => (
+              <div key={index} className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 border border-white/30 hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 group">
+                <div className={`bg-gradient-to-br ${feature.gradient} w-14 h-14 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                  <feature.icon className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-4 text-gray-900">{feature.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* About Section */}
-      <section id="about" className="py-20 px-6">
+      <section id="about" className="py-20 px-6 bg-white/50">
         <div className="container mx-auto">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-8 text-gray-900">Built for Modern Students</h2>
@@ -179,41 +256,37 @@ const Index = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 px-6 bg-white/50">
+      <section id="testimonials" className="py-20 px-6">
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-gray-900">What Students Say</h2>
             <p className="text-xl text-gray-600">Join thousands of students who've transformed their academic journey</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-white/30">
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-700 mb-4 leading-relaxed">"{testimonial.text}"</p>
-                <div>
-                  <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                  <div className="text-sm text-gray-600">{testimonial.university}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <InfiniteMovingCards
+            items={testimonials}
+            direction="right"
+            speed="slow"
+            className="mb-8"
+          />
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-6">
+      {/* Big CTA Section */}
+      <section className="py-32 px-6 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700">
         <div className="container mx-auto text-center">
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-12 text-white">
-            <h2 className="text-4xl font-bold mb-4">Ready to Transform Your Studies?</h2>
-            <p className="text-xl mb-8 opacity-90">Join thousands of students already using Smart Study to achieve academic excellence</p>
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-white leading-tight">
+              Study anywhere. Anytime.
+              <br />
+              Across all devices.
+            </h2>
+            <p className="text-xl text-blue-100 mb-12 opacity-90">
+              Access your personalized learning experience on any device, anywhere in the world
+            </p>
             <Link to="/signup">
-              <Button size="lg" variant="secondary" className="px-8 py-4 text-lg bg-white text-blue-600 hover:bg-gray-100">
-                Get Started Free
+              <Button size="lg" variant="secondary" className="px-12 py-6 text-xl bg-white text-blue-600 hover:bg-gray-100 rounded-full shadow-2xl">
+                Sign up for free
               </Button>
             </Link>
           </div>
@@ -221,16 +294,59 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-gray-900 text-white">
-        <div className="container mx-auto text-center">
-          <div className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-            Smart Study
+      <footer className="py-16 px-6 bg-gray-900 text-white">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-4 gap-8 mb-12">
+            <div>
+              <div className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+                Smart Study
+              </div>
+              <p className="text-gray-400 mb-4">Empowering student success through intelligent technology</p>
+            </div>
+            
+            <div>
+              <h3 className="font-semibold mb-4 text-white">Company</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">Career</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="font-semibold mb-4 text-white">Product</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">Exams</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Explanations</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">For Companies</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Magazine</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="font-semibold mb-4 text-white">Help</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Cancel Premium</a></li>
+              </ul>
+            </div>
           </div>
-          <p className="text-gray-400 mb-6">Empowering student success through intelligent technology</p>
-          <div className="flex justify-center space-x-6 text-gray-400">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-white transition-colors">Contact Us</a>
+          
+          <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <div className="text-gray-400 text-sm mb-4 md:mb-0">
+              © 2025 Smart Study GmbH | Terms | Privacy | Transparency
+            </div>
+            <div className="flex space-x-4">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Star className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <BookOpen className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Users className="w-5 h-5" />
+              </a>
+            </div>
           </div>
         </div>
       </footer>
