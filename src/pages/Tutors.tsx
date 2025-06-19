@@ -59,7 +59,7 @@ const Tutors = () => {
     tutor.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
     tutor.specialization.toLowerCase().includes(searchQuery.toLowerCase())
   ).filter(tutor => 
-    !selectedSubject || tutor.subject === selectedSubject
+    !selectedSubject || selectedSubject === 'all' || tutor.subject === selectedSubject
   );
 
   return (
@@ -85,7 +85,7 @@ const Tutors = () => {
             <SelectValue placeholder="Select Subject" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Subjects</SelectItem>
+            <SelectItem value="all">All Subjects</SelectItem>
             <SelectItem value="Mathematics">Mathematics</SelectItem>
             <SelectItem value="Computer Science">Computer Science</SelectItem>
             <SelectItem value="Physics">Physics</SelectItem>
