@@ -1,201 +1,134 @@
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
-import { Textarea } from '@/components/ui/textarea';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Settings as SettingsIcon, Shield, Palette, HelpCircle, MessageSquare, LogOut, Trash2 } from 'lucide-react';
+import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/AppSidebar';
+import { Shield, Palette, HelpCircle, MessageSquare, LogOut, Trash2, Bell } from 'lucide-react';
 
 const Settings = () => {
-  const [settings, setSettings] = useState({
-    notifications: true,
-    emailUpdates: false,
-    darkMode: false,
-    dataCollection: true
-  });
-
-  const [feedback, setFeedback] = useState('');
-
-  const toggleSetting = (key: string) => {
-    setSettings(prev => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  const submitFeedback = () => {
-    console.log('Feedback submitted:', feedback);
-    setFeedback('');
-  };
-
   return (
-    <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-        <p className="text-gray-600">Manage your app preferences and account</p>
-      </div>
-
-      <Tabs defaultValue="privacy" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="privacy">Privacy</TabsTrigger>
-          <TabsTrigger value="theme">Theme</TabsTrigger>
-          <TabsTrigger value="help">Help</TabsTrigger>
-          <TabsTrigger value="account">Account</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="privacy" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Shield className="h-5 w-5 mr-2" />
-                Data & Privacy
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="font-medium">Push Notifications</h4>
-                  <p className="text-sm text-gray-600">Receive notifications about assignments and deadlines</p>
-                </div>
-                <Switch
-                  checked={settings.notifications}
-                  onCheckedChange={() => toggleSetting('notifications')}
-                />
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full">
+        <AppSidebar />
+        <SidebarInset className="flex-1">
+          {/* Header */}
+          <header className="bg-white/80 backdrop-blur-lg border-b border-gray-200 sticky top-0 z-10">
+            <div className="flex justify-between items-center h-16 px-6">
+              <div className="flex items-center gap-4">
+                <SidebarTrigger className="h-7 w-7" />
+                <h1 className="text-xl font-semibold text-gray-900">Settings</h1>
               </div>
-              
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="font-medium">Email Updates</h4>
-                  <p className="text-sm text-gray-600">Get weekly summary emails about your progress</p>
-                </div>
-                <Switch
-                  checked={settings.emailUpdates}
-                  onCheckedChange={() => toggleSetting('emailUpdates')}
-                />
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="font-medium">Data Collection</h4>
-                  <p className="text-sm text-gray-600">Allow anonymous usage data collection for app improvement</p>
-                </div>
-                <Switch
-                  checked={settings.dataCollection}
-                  onCheckedChange={() => toggleSetting('dataCollection')}
-                />
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="theme" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Palette className="h-5 w-5 mr-2" />
-                Appearance
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="font-medium">Dark Mode</h4>
-                  <p className="text-sm text-gray-600">Switch to dark theme for better viewing in low light</p>
-                </div>
-                <Switch
-                  checked={settings.darkMode}
-                  onCheckedChange={() => toggleSetting('darkMode')}
-                />
-              </div>
-              
-              <div className="space-y-3">
-                <h4 className="font-medium">Theme Color</h4>
-                <div className="flex space-x-3">
-                  <div className="w-8 h-8 bg-blue-500 rounded-full cursor-pointer border-2 border-blue-600"></div>
-                  <div className="w-8 h-8 bg-green-500 rounded-full cursor-pointer hover:border-2 hover:border-green-600"></div>
-                  <div className="w-8 h-8 bg-purple-500 rounded-full cursor-pointer hover:border-2 hover:border-purple-600"></div>
-                  <div className="w-8 h-8 bg-red-500 rounded-full cursor-pointer hover:border-2 hover:border-red-600"></div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="help" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <HelpCircle className="h-5 w-5 mr-2" />
-                Help & Support
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Button variant="outline" className="w-full justify-start">
-                <HelpCircle className="h-4 w-4 mr-2" />
-                FAQ & Help Center
-              </Button>
-              
-              <Button variant="outline" className="w-full justify-start">
-                <MessageSquare className="h-4 w-4 mr-2" />
-                Contact Support
-              </Button>
-              
-              <div className="pt-4 border-t">
-                <h4 className="font-medium mb-3">Send Feedback</h4>
-                <Textarea
-                  placeholder="Tell us what you think about the app..."
-                  value={feedback}
-                  onChange={(e) => setFeedback(e.target.value)}
-                  className="mb-3"
-                />
-                <Button onClick={submitFeedback} disabled={!feedback.trim()}>
-                  Submit Feedback
+              <div className="flex items-center space-x-4">
+                <Button variant="ghost" size="icon">
+                  <Bell className="h-4 w-4" />
                 </Button>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+            </div>
+          </header>
 
-        <TabsContent value="account" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <SettingsIcon className="h-5 w-5 mr-2" />
-                Account Management
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Button variant="outline" className="w-full justify-start text-orange-600 hover:text-orange-700">
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
+          {/* Main Content */}
+          <main className="p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 min-h-[calc(100vh-4rem)]">
+            <div className="max-w-2xl mx-auto space-y-6">
               
-              <Dialog>
-                <DialogTrigger asChild>
+              {/* Data and Privacy */}
+              <Card className="bg-white/80 backdrop-blur-lg border-white/30">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Shield className="h-5 w-5 mr-2" />
+                    Data and Privacy
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium">Data Collection</p>
+                      <p className="text-sm text-gray-600">Allow app to collect usage data</p>
+                    </div>
+                    <Switch />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium">Analytics</p>
+                      <p className="text-sm text-gray-600">Help improve the app with anonymous analytics</p>
+                    </div>
+                    <Switch />
+                  </div>
+                  <Button variant="outline" className="w-full">
+                    Download My Data
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Theme */}
+              <Card className="bg-white/80 backdrop-blur-lg border-white/30">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Palette className="h-5 w-5 mr-2" />
+                    Theme
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium">Dark Mode</p>
+                      <p className="text-sm text-gray-600">Switch to dark theme</p>
+                    </div>
+                    <Switch />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium">Auto Theme</p>
+                      <p className="text-sm text-gray-600">Follow system theme</p>
+                    </div>
+                    <Switch />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Help and Support */}
+              <Card className="bg-white/80 backdrop-blur-lg border-white/30">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <HelpCircle className="h-5 w-5 mr-2" />
+                    Help and Support
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button variant="ghost" className="w-full justify-start">
+                    Help Desk
+                  </Button>
+                  <Button variant="ghost" className="w-full justify-start">
+                    <MessageSquare className="h-4 w-4 mr-2" />
+                    Feedback
+                  </Button>
+                  <Button variant="ghost" className="w-full justify-start">
+                    Contact Support
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Account Actions */}
+              <Card className="bg-white/80 backdrop-blur-lg border-white/30">
+                <CardHeader>
+                  <CardTitle>Account</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button variant="outline" className="w-full justify-start text-orange-600 hover:text-orange-700">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </Button>
                   <Button variant="outline" className="w-full justify-start text-red-600 hover:text-red-700">
                     <Trash2 className="h-4 w-4 mr-2" />
                     Delete Account
                   </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Delete Account</DialogTitle>
-                  </DialogHeader>
-                  <div className="space-y-4">
-                    <p className="text-gray-600">
-                      Are you sure you want to delete your account? This action cannot be undone and will permanently remove all your data.
-                    </p>
-                    <div className="flex space-x-2">
-                      <Button variant="outline" className="flex-1">Cancel</Button>
-                      <Button variant="destructive" className="flex-1">Delete Account</Button>
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
+                </CardContent>
+              </Card>
+            </div>
+          </main>
+        </SidebarInset>
+      </div>
+    </SidebarProvider>
   );
 };
 

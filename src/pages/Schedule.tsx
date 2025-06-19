@@ -2,191 +2,163 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Calendar } from '@/components/ui/calendar';
-import { Plus, Clock, Calendar as CalendarIcon } from 'lucide-react';
+import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/AppSidebar';
+import { Calendar, Plus, Clock, CheckCircle, AlertCircle, Bell } from 'lucide-react';
 
 const Schedule = () => {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: 'Study Data Structures',
-      description: 'Complete chapter 5 and practice problems',
-      date: '2024-01-15',
-      startTime: '10:00',
-      endTime: '12:00',
-      completed: false
-    },
-    {
-      id: 2,
-      title: 'Project Meeting',
-      description: 'Discuss project requirements with team',
-      date: '2024-01-15',
-      startTime: '14:00',
-      endTime: '15:30',
-      completed: true
-    }
-  ]);
+  const [currentDate] = useState(new Date());
+  
+  const todaysTasks = [
+    { id: 1, title: 'Complete Data Structures Assignment', time: '10:00 AM', status: 'pending', priority: 'high' },
+    { id: 2, title: 'Study for Database Quiz', time: '2:00 PM', status: 'completed', priority: 'medium' },
+    { id: 3, title: 'Group Project Meeting', time: '4:00 PM', status: 'pending', priority: 'high' },
+    { id: 4, title: 'Review Algorithm Notes', time: '7:00 PM', status: 'pending', priority: 'low' }
+  ];
 
-  const [newTask, setNewTask] = useState({
-    title: '',
-    description: '',
-    date: '',
-    startTime: '',
-    endTime: ''
-  });
-
-  const todaysTasks = tasks.filter(task => task.date === new Date().toISOString().split('T')[0]);
-
-  const addTask = () => {
-    if (newTask.title && newTask.date && newTask.startTime && newTask.endTime) {
-      setTasks([...tasks, {
-        id: Date.now(),
-        ...newTask,
-        completed: false
-      }]);
-      setNewTask({ title: '', description: '', date: '', startTime: '', endTime: '' });
-    }
-  };
+  const upcomingTasks = [
+    { id: 5, title: 'Submit Research Paper', date: 'Tomorrow', time: '11:59 PM', priority: 'high' },
+    { id: 6, title: 'Computer Networks Exam', date: 'Friday', time: '9:00 AM', priority: 'high' },
+    { id: 7, title: 'Project Presentation', date: 'Next Week', time: '2:00 PM', priority: 'medium' }
+  ];
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Schedule Planner</h1>
-          <p className="text-gray-600">Organize your study schedule and tasks</p>
-        </div>
-        
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="bg-blue-600 hover:bg-blue-700">
-              <Plus className="h-4 w-4 mr-2" />
-              Add Task
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Task</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="taskTitle">Task Title</Label>
-                <Input
-                  id="taskTitle"
-                  value={newTask.title}
-                  onChange={(e) => setNewTask({...newTask, title: e.target.value})}
-                  placeholder="Enter task title"
-                />
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full">
+        <AppSidebar />
+        <SidebarInset className="flex-1">
+          {/* Header */}
+          <header className="bg-white/80 backdrop-blur-lg border-b border-gray-200 sticky top-0 z-10">
+            <div className="flex justify-between items-center h-16 px-6">
+              <div className="flex items-center gap-4">
+                <SidebarTrigger className="h-7 w-7" />
+                <h1 className="text-xl font-semibold text-gray-900">Schedule</h1>
               </div>
-              <div>
-                <Label htmlFor="taskDescription">Description</Label>
-                <Textarea
-                  id="taskDescription"
-                  value={newTask.description}
-                  onChange={(e) => setNewTask({...newTask, description: e.target.value})}
-                  placeholder="Enter task description"
-                />
+              <div className="flex items-center space-x-4">
+                <Button variant="ghost" size="icon">
+                  <Bell className="h-4 w-4" />
+                </Button>
+                <Button>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Task
+                </Button>
               </div>
-              <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="taskDate">Date</Label>
-                  <Input
-                    id="taskDate"
-                    type="date"
-                    value={newTask.date}
-                    onChange={(e) => setNewTask({...newTask, date: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="startTime">Start Time</Label>
-                  <Input
-                    id="startTime"
-                    type="time"
-                    value={newTask.startTime}
-                    onChange={(e) => setNewTask({...newTask, startTime: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="endTime">End Time</Label>
-                  <Input
-                    id="endTime"
-                    type="time"
-                    value={newTask.endTime}
-                    onChange={(e) => setNewTask({...newTask, endTime: e.target.value})}
-                  />
-                </div>
-              </div>
-              <Button onClick={addTask} className="w-full">Add Task</Button>
             </div>
-          </DialogContent>
-        </Dialog>
-      </div>
+          </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <CalendarIcon className="h-5 w-5 mr-2" />
-                Calendar View
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                onSelect={setSelectedDate}
-                className="rounded-md border"
-              />
-            </CardContent>
-          </Card>
-        </div>
-
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Clock className="h-5 w-5 mr-2" />
-                Today's Tasks
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {todaysTasks.length === 0 ? (
-                <p className="text-gray-500 text-center py-4">No tasks for today</p>
-              ) : (
-                todaysTasks.map((task) => (
-                  <div key={task.id} className={`p-3 border rounded-lg ${task.completed ? 'bg-green-50 border-green-200' : 'bg-gray-50'}`}>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-medium">{task.title}</h4>
-                        <p className="text-sm text-gray-600">{task.description}</p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {task.startTime} - {task.endTime}
-                        </p>
+          {/* Main Content */}
+          <main className="p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 min-h-[calc(100vh-4rem)]">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              
+              {/* Calendar Section */}
+              <Card className="lg:col-span-2 bg-white/80 backdrop-blur-lg border-white/30">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Calendar className="h-5 w-5 mr-2" />
+                    Calendar View
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-7 gap-2 mb-4">
+                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+                      <div key={day} className="text-center text-sm font-medium text-gray-600 p-2">
+                        {day}
                       </div>
-                      <input
-                        type="checkbox"
-                        checked={task.completed}
-                        onChange={() => {
-                          setTasks(tasks.map(t => 
-                            t.id === task.id ? {...t, completed: !t.completed} : t
-                          ));
-                        }}
-                        className="ml-2"
-                      />
-                    </div>
+                    ))}
                   </div>
-                ))
-              )}
-            </CardContent>
-          </Card>
-        </div>
+                  <div className="grid grid-cols-7 gap-2">
+                    {Array.from({ length: 35 }, (_, i) => {
+                      const day = i - 6; // Start from previous month
+                      const isToday = day === currentDate.getDate();
+                      const hasTask = [5, 12, 18, 25].includes(day);
+                      
+                      return (
+                        <div
+                          key={i}
+                          className={`
+                            aspect-square flex items-center justify-center text-sm rounded-lg cursor-pointer
+                            ${isToday ? 'bg-blue-600 text-white font-bold' : 'hover:bg-gray-100'}
+                            ${hasTask ? 'bg-blue-50 text-blue-600 font-medium' : ''}
+                            ${day <= 0 ? 'text-gray-300' : ''}
+                          `}
+                        >
+                          {day > 0 ? day : ''}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Today's Tasks */}
+              <Card className="bg-white/80 backdrop-blur-lg border-white/30">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Clock className="h-5 w-5 mr-2" />
+                    Today's Tasks
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {todaysTasks.map((task) => (
+                      <div
+                        key={task.id}
+                        className={`p-3 rounded-lg border-l-4 ${
+                          task.priority === 'high' ? 'border-red-500 bg-red-50' :
+                          task.priority === 'medium' ? 'border-yellow-500 bg-yellow-50' :
+                          'border-green-500 bg-green-50'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1">
+                            <p className={`text-sm font-medium ${task.status === 'completed' ? 'line-through text-gray-500' : ''}`}>
+                              {task.title}
+                            </p>
+                            <p className="text-xs text-gray-600">{task.time}</p>
+                          </div>
+                          {task.status === 'completed' ? (
+                            <CheckCircle className="h-4 w-4 text-green-600" />
+                          ) : (
+                            <AlertCircle className="h-4 w-4 text-orange-600" />
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Upcoming Tasks */}
+            <Card className="mt-6 bg-white/80 backdrop-blur-lg border-white/30">
+              <CardHeader>
+                <CardTitle>Upcoming Tasks</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {upcomingTasks.map((task) => (
+                    <div
+                      key={task.id}
+                      className={`p-4 rounded-lg border ${
+                        task.priority === 'high' ? 'border-red-200 bg-red-50' :
+                        task.priority === 'medium' ? 'border-yellow-200 bg-yellow-50' :
+                        'border-green-200 bg-green-50'
+                      }`}
+                    >
+                      <h4 className="font-medium text-sm mb-2">{task.title}</h4>
+                      <div className="flex items-center justify-between text-xs text-gray-600">
+                        <span>{task.date}</span>
+                        <span>{task.time}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </main>
+        </SidebarInset>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
 

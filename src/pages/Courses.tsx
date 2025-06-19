@@ -3,126 +3,140 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { BookOpen, Plus, Upload, FileText, Video, HelpCircle } from 'lucide-react';
+import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/AppSidebar';
+import { BookOpen, Plus, Search, FileText, Video, HelpCircle, Upload, Settings, Bell } from 'lucide-react';
 
 const Courses = () => {
-  const [courses, setCourses] = useState([
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const courses = [
     {
       id: 1,
-      name: 'Computer Science Engineering',
-      college: 'IIT Madras',
-      resources: {
-        notes: 12,
-        pyqs: 8,
-        syllabus: 1,
-        videos: 25,
-        mcqs: 150
-      }
+      name: 'Data Structures and Algorithms',
+      code: 'CS101',
+      instructor: 'Dr. Smith',
+      resources: { notes: 12, pyqs: 8, videos: 15, mcqs: 50 }
+    },
+    {
+      id: 2,
+      name: 'Database Management Systems',
+      code: 'CS201',
+      instructor: 'Prof. Johnson',
+      resources: { notes: 10, pyqs: 6, videos: 12, mcqs: 40 }
+    },
+    {
+      id: 3,
+      name: 'Computer Networks',
+      code: 'CS301',
+      instructor: 'Dr. Brown',
+      resources: { notes: 8, pyqs: 5, videos: 10, mcqs: 35 }
     }
-  ]);
-
-  const [newCourse, setNewCourse] = useState({
-    name: '',
-    college: '',
-    description: ''
-  });
-
-  const addCourse = () => {
-    if (newCourse.name && newCourse.college) {
-      setCourses([...courses, {
-        id: Date.now(),
-        name: newCourse.name,
-        college: newCourse.college,
-        resources: { notes: 0, pyqs: 0, syllabus: 0, videos: 0, mcqs: 0 }
-      }]);
-      setNewCourse({ name: '', college: '', description: '' });
-    }
-  };
+  ];
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">My Courses</h1>
-          <p className="text-gray-600">Access your study materials and resources</p>
-        </div>
-        
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="bg-blue-600 hover:bg-blue-700">
-              <Plus className="h-4 w-4 mr-2" />
-              Add Course
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Course</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="courseName">Course Name</Label>
-                <Input
-                  id="courseName"
-                  value={newCourse.name}
-                  onChange={(e) => setNewCourse({...newCourse, name: e.target.value})}
-                  placeholder="Enter course name"
-                />
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full">
+        <AppSidebar />
+        <SidebarInset className="flex-1">
+          {/* Header */}
+          <header className="bg-white/80 backdrop-blur-lg border-b border-gray-200 sticky top-0 z-10">
+            <div className="flex justify-between items-center h-16 px-6">
+              <div className="flex items-center gap-4">
+                <SidebarTrigger className="h-7 w-7" />
+                <h1 className="text-xl font-semibold text-gray-900">Courses</h1>
               </div>
-              <div>
-                <Label htmlFor="college">College/University</Label>
-                <Input
-                  id="college"
-                  value={newCourse.college}
-                  onChange={(e) => setNewCourse({...newCourse, college: e.target.value})}
-                  placeholder="Enter college name"
-                />
-              </div>
-              <Button onClick={addCourse} className="w-full">Add Course</Button>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {courses.map((course) => (
-          <Card key={course.id} className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <BookOpen className="h-5 w-5 mr-2 text-blue-600" />
-                {course.name}
-              </CardTitle>
-              <p className="text-sm text-gray-600">{course.college}</p>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="flex items-center"><FileText className="h-4 w-4 mr-1" />Notes</span>
-                  <span>{course.resources.notes}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="flex items-center"><HelpCircle className="h-4 w-4 mr-1" />PYQs</span>
-                  <span>{course.resources.pyqs}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="flex items-center"><Video className="h-4 w-4 mr-1" />Videos</span>
-                  <span>{course.resources.videos}</span>
-                </div>
-              </div>
-              <div className="mt-4 flex space-x-2">
-                <Button size="sm" variant="outline" className="flex-1">
-                  <Upload className="h-4 w-4 mr-1" />
-                  Upload
+              <div className="flex items-center space-x-4">
+                <Button variant="ghost" size="icon">
+                  <Bell className="h-4 w-4" />
                 </Button>
-                <Button size="sm" className="flex-1">View Resources</Button>
+                <Button variant="ghost">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Course
+                </Button>
               </div>
-            </CardContent>
-          </Card>
-        ))}
+            </div>
+          </header>
+
+          {/* Main Content */}
+          <main className="p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 min-h-[calc(100vh-4rem)]">
+            <div className="space-y-6">
+              {/* Search Bar */}
+              <div className="relative">
+                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Input
+                  placeholder="Search courses..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 bg-white/80 backdrop-blur-lg"
+                />
+              </div>
+
+              {/* Courses Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {courses.map((course) => (
+                  <Card key={course.id} className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow">
+                    <CardHeader>
+                      <CardTitle className="flex items-center justify-between">
+                        <div>
+                          <h3 className="text-lg font-semibold">{course.name}</h3>
+                          <p className="text-sm text-gray-600">{course.code}</p>
+                        </div>
+                        <BookOpen className="h-6 w-6 text-blue-600" />
+                      </CardTitle>
+                      <p className="text-sm text-gray-500">Instructor: {course.instructor}</p>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-2 gap-4 mb-4">
+                        <div className="flex items-center">
+                          <FileText className="h-4 w-4 mr-2 text-green-600" />
+                          <span className="text-sm">{course.resources.notes} Notes</span>
+                        </div>
+                        <div className="flex items-center">
+                          <HelpCircle className="h-4 w-4 mr-2 text-orange-600" />
+                          <span className="text-sm">{course.resources.pyqs} PYQs</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Video className="h-4 w-4 mr-2 text-red-600" />
+                          <span className="text-sm">{course.resources.videos} Videos</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Settings className="h-4 w-4 mr-2 text-purple-600" />
+                          <span className="text-sm">{course.resources.mcqs} MCQs</span>
+                        </div>
+                      </div>
+                      <div className="flex space-x-2">
+                        <Button size="sm" className="flex-1">
+                          View Course
+                        </Button>
+                        <Button size="sm" variant="outline">
+                          <Upload className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Add Course Section */}
+              <Card className="bg-white/80 backdrop-blur-lg border-white/30 border-2 border-dashed">
+                <CardContent className="flex flex-col items-center justify-center p-8">
+                  <Plus className="h-12 w-12 text-gray-400 mb-4" />
+                  <h3 className="text-lg font-semibold mb-2">Add New Course</h3>
+                  <p className="text-gray-600 text-center mb-4">
+                    Add courses that aren't listed or create custom study materials
+                  </p>
+                  <Button className="bg-gradient-to-r from-blue-600 to-indigo-600">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Course
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </main>
+        </SidebarInset>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
 

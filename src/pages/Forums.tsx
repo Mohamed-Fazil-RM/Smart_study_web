@@ -3,190 +3,182 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { MessageSquare, Plus, Users, DollarSign, HelpCircle } from 'lucide-react';
+import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/AppSidebar';
+import { MessageSquare, Users, Plus, Search, Image, DollarSign, Bell } from 'lucide-react';
 
 const Forums = () => {
-  const [posts, setPosts] = useState([
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const publicPosts = [
     {
       id: 1,
       title: 'Need help with Data Structures assignment',
-      content: 'Can someone help me with implementing a binary search tree?',
       author: 'John Doe',
+      time: '2 hours ago',
+      replies: 5,
       type: 'help',
-      payment: null,
-      replies: 3,
-      timestamp: '2 hours ago'
+      college: 'IIT Madras'
     },
     {
       id: 2,
-      title: 'Web Development Project - Paid Work',
-      content: 'Looking for someone to help with React development. Willing to pay ₹500/hour',
-      author: 'Sarah Smith',
-      type: 'paid',
-      payment: '₹500/hour',
-      replies: 7,
-      timestamp: '4 hours ago'
+      title: 'Looking for project partner - Web Development',
+      author: 'Jane Smith',
+      time: '4 hours ago',
+      replies: 12,
+      type: 'collaboration',
+      college: 'The New College',
+      payment: '₹2000'
     }
-  ]);
+  ];
 
-  const [communities] = useState([
-    { id: 1, name: 'IIT Madras - Computer Science', members: 1250, joined: true },
-    { id: 2, name: 'Web Development Hub', members: 850, joined: false },
-    { id: 3, name: 'Data Science Learning', members: 620, joined: false }
-  ]);
-
-  const [newPost, setNewPost] = useState({
-    title: '',
-    content: '',
-    type: 'help',
-    payment: ''
-  });
-
-  const addPost = () => {
-    if (newPost.title && newPost.content) {
-      setPosts([{
-        id: Date.now(),
-        ...newPost,
-        author: 'You',
-        replies: 0,
-        timestamp: 'Just now',
-        payment: newPost.type === 'paid' ? newPost.payment : null
-      }, ...posts]);
-      setNewPost({ title: '', content: '', type: 'help', payment: '' });
-    }
-  };
+  const communities = [
+    { id: 1, name: 'IIT Madras - Computer Science', members: 1240, active: true },
+    { id: 2, name: 'Web Development Hub', members: 856, active: false },
+    { id: 3, name: 'Data Science Study Group', members: 642, active: false }
+  ];
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Forums</h1>
-          <p className="text-gray-600">Connect with students and get help</p>
-        </div>
-        
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="bg-blue-600 hover:bg-blue-700">
-              <Plus className="h-4 w-4 mr-2" />
-              New Post
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Create New Post</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div>
-                <Input
-                  placeholder="Post title..."
-                  value={newPost.title}
-                  onChange={(e) => setNewPost({...newPost, title: e.target.value})}
-                />
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full">
+        <AppSidebar />
+        <SidebarInset className="flex-1">
+          {/* Header */}
+          <header className="bg-white/80 backdrop-blur-lg border-b border-gray-200 sticky top-0 z-10">
+            <div className="flex justify-between items-center h-16 px-6">
+              <div className="flex items-center gap-4">
+                <SidebarTrigger className="h-7 w-7" />
+                <h1 className="text-xl font-semibold text-gray-900">Forums</h1>
               </div>
-              <div>
-                <Textarea
-                  placeholder="Describe your question or offer..."
-                  value={newPost.content}
-                  onChange={(e) => setNewPost({...newPost, content: e.target.value})}
-                />
-              </div>
-              <div className="flex space-x-4">
-                <Button
-                  variant={newPost.type === 'help' ? 'default' : 'outline'}
-                  onClick={() => setNewPost({...newPost, type: 'help'})}
-                >
-                  <HelpCircle className="h-4 w-4 mr-2" />
-                  Need Help
+              <div className="flex items-center space-x-4">
+                <Button variant="ghost" size="icon">
+                  <Bell className="h-4 w-4" />
                 </Button>
-                <Button
-                  variant={newPost.type === 'paid' ? 'default' : 'outline'}
-                  onClick={() => setNewPost({...newPost, type: 'paid'})}
-                >
-                  <DollarSign className="h-4 w-4 mr-2" />
-                  Paid Work
+                <Button>
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Post
                 </Button>
               </div>
-              {newPost.type === 'paid' && (
-                <Input
-                  placeholder="Payment amount (e.g., ₹500/hour)"
-                  value={newPost.payment}
-                  onChange={(e) => setNewPost({...newPost, payment: e.target.value})}
-                />
-              )}
-              <Button onClick={addPost} className="w-full">Post</Button>
             </div>
-          </DialogContent>
-        </Dialog>
-      </div>
+          </header>
 
-      <Tabs defaultValue="public" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="public">Public Forum</TabsTrigger>
-          <TabsTrigger value="communities">Communities</TabsTrigger>
-        </TabsList>
+          {/* Main Content */}
+          <main className="p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 min-h-[calc(100vh-4rem)]">
+            <Tabs defaultValue="public" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsTrigger value="public">Public Forum</TabsTrigger>
+                <TabsTrigger value="communities">Communities</TabsTrigger>
+              </TabsList>
 
-        <TabsContent value="public" className="space-y-4">
-          {posts.map((post) => (
-            <Card key={post.id} className="hover:shadow-md transition-shadow">
-              <CardContent className="pt-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <h3 className="font-semibold text-lg">{post.title}</h3>
-                      {post.payment && (
-                        <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
-                          {post.payment}
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-gray-600 mb-3">{post.content}</p>
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
-                      <span>By {post.author}</span>
-                      <span>{post.timestamp}</span>
-                      <span className="flex items-center">
-                        <MessageSquare className="h-4 w-4 mr-1" />
-                        {post.replies} replies
-                      </span>
-                    </div>
-                  </div>
-                  <Avatar>
-                    <AvatarFallback>{post.author.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                  </Avatar>
+              <TabsContent value="public" className="space-y-6">
+                {/* Search Bar */}
+                <div className="relative">
+                  <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    placeholder="Search posts..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 bg-white/80 backdrop-blur-lg"
+                  />
                 </div>
-              </CardContent>
-            </Card>
-          ))}
-        </TabsContent>
 
-        <TabsContent value="communities" className="space-y-4">
-          {communities.map((community) => (
-            <Card key={community.id} className="hover:shadow-md transition-shadow">
-              <CardContent className="pt-6">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-semibold text-lg">{community.name}</h3>
-                    <p className="text-gray-600 flex items-center">
-                      <Users className="h-4 w-4 mr-1" />
-                      {community.members} members
+                {/* Posts */}
+                <div className="space-y-4">
+                  {publicPosts.map((post) => (
+                    <Card key={post.id} className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow">
+                      <CardHeader>
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <CardTitle className="text-lg mb-2">{post.title}</CardTitle>
+                            <div className="flex items-center space-x-4 text-sm text-gray-600">
+                              <span>by {post.author}</span>
+                              <span>{post.time}</span>
+                              <span>{post.college}</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            {post.payment && (
+                              <div className="flex items-center text-green-600 bg-green-50 px-2 py-1 rounded">
+                                <DollarSign className="h-3 w-3 mr-1" />
+                                <span className="text-xs font-medium">{post.payment}</span>
+                              </div>
+                            )}
+                            <div className="flex items-center text-blue-600">
+                              <MessageSquare className="h-4 w-4 mr-1" />
+                              <span className="text-sm">{post.replies}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex justify-between items-center">
+                          <div className="flex space-x-2">
+                            <Button size="sm" variant="outline">Reply</Button>
+                            <Button size="sm" variant="outline">
+                              <Image className="h-3 w-3 mr-1" />
+                              Attach
+                            </Button>
+                          </div>
+                          <span className={`text-xs px-2 py-1 rounded ${
+                            post.type === 'help' ? 'bg-blue-100 text-blue-600' : 'bg-purple-100 text-purple-600'
+                          }`}>
+                            {post.type}
+                          </span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="communities" className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {communities.map((community) => (
+                    <Card key={community.id} className="bg-white/80 backdrop-blur-lg border-white/30">
+                      <CardHeader>
+                        <CardTitle className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <Users className="h-5 w-5 mr-2 text-blue-600" />
+                            {community.name}
+                          </div>
+                          {community.active && (
+                            <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">Active</span>
+                          )}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-gray-600 mb-4">{community.members} members</p>
+                        <Button 
+                          className={`w-full ${community.active ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'}`}
+                        >
+                          {community.active ? 'Active' : 'Join Community'}
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+
+                {/* Create Community */}
+                <Card className="bg-white/80 backdrop-blur-lg border-white/30 border-2 border-dashed">
+                  <CardContent className="flex flex-col items-center justify-center p-8">
+                    <Plus className="h-12 w-12 text-gray-400 mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">Create New Community</h3>
+                    <p className="text-gray-600 text-center mb-4">
+                      Start a community for skill-based learning or study groups
                     </p>
-                  </div>
-                  <Button 
-                    variant={community.joined ? 'outline' : 'default'}
-                    className={community.joined ? 'text-gray-600' : ''}
-                  >
-                    {community.joined ? 'Joined' : 'Join'}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </TabsContent>
-      </Tabs>
-    </div>
+                    <Button className="bg-gradient-to-r from-purple-600 to-pink-600">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Create Community
+                    </Button>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </main>
+        </SidebarInset>
+      </div>
+    </SidebarProvider>
   );
 };
 

@@ -1,172 +1,160 @@
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Brain, FileText, HelpCircle, Zap, BookOpen } from 'lucide-react';
+import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/AppSidebar';
+import { Bot, FileText, Zap, Brain, BookOpen, HelpCircle, Bell } from 'lucide-react';
 
 const Assistance = () => {
-  const [selectedTool, setSelectedTool] = useState('');
-  const [topic, setTopic] = useState('');
-  const [learningStyle, setLearningStyle] = useState('');
-  const [result, setResult] = useState('');
-
-  const generateContent = () => {
-    if (!topic || !selectedTool) return;
-    
-    // Simulate AI generation
-    const responses = {
-      'question-paper': `Generated Question Paper for ${topic}:\n\n1. Define the basic concepts of ${topic}\n2. Explain the applications of ${topic}\n3. Compare different approaches in ${topic}\n4. Solve practical problems related to ${topic}\n5. Analyze case studies in ${topic}`,
-      'flashcards': `Flashcard Set for ${topic}:\n\nCard 1: What is ${topic}? | ${topic} is a fundamental concept...\nCard 2: Key principles of ${topic} | The main principles include...\nCard 3: Applications of ${topic} | Used in various fields such as...`,
-      'quiz': `Quiz for ${topic}:\n\n1. What is the primary purpose of ${topic}?\na) Option A\nb) Option B\nc) Option C\nd) Option D\n\n2. Which of the following best describes ${topic}?\na) Option A\nb) Option B\nc) Option C\nd) Option D`,
-      'explanation': `${learningStyle} Explanation of ${topic}:\n\n${
-        learningStyle === 'practical' ? 'Here\'s how you can apply this in real situations...' :
-        learningStyle === 'theoretical' ? 'The theoretical foundation of this concept...' :
-        'Let me explain this with a real-life example...'
-      }`
-    };
-
-    setResult(responses[selectedTool as keyof typeof responses] || 'Generated content will appear here...');
-  };
-
   return (
-    <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">AI Assistance</h1>
-        <p className="text-gray-600">Get personalized help with your studies</p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Brain className="h-5 w-5 mr-2 text-purple-600" />
-              AI Tools
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-2">Select Tool</label>
-              <Select value={selectedTool} onValueChange={setSelectedTool}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Choose an AI tool" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="question-paper">
-                    <div className="flex items-center">
-                      <FileText className="h-4 w-4 mr-2" />
-                      Question Paper Generator
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="flashcards">
-                    <div className="flex items-center">
-                      <BookOpen className="h-4 w-4 mr-2" />
-                      Flashcard Generator
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="quiz">
-                    <div className="flex items-center">
-                      <HelpCircle className="h-4 w-4 mr-2" />
-                      Quiz Generator
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="explanation">
-                    <div className="flex items-center">
-                      <Zap className="h-4 w-4 mr-2" />
-                      Topic Explanation
-                    </div>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Topic/Subject</label>
-              <Input
-                placeholder="Enter the topic you need help with..."
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-              />
-            </div>
-
-            {selectedTool === 'explanation' && (
-              <div>
-                <label className="block text-sm font-medium mb-2">Learning Style</label>
-                <Select value={learningStyle} onValueChange={setLearningStyle}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Choose your learning style" />
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full">
+        <AppSidebar />
+        <SidebarInset className="flex-1">
+          {/* Header */}
+          <header className="bg-white/80 backdrop-blur-lg border-b border-gray-200 sticky top-0 z-10">
+            <div className="flex justify-between items-center h-16 px-6">
+              <div className="flex items-center gap-4">
+                <SidebarTrigger className="h-7 w-7" />
+                <h1 className="text-xl font-semibold text-gray-900">AI Assistance</h1>
+              </div>
+              <div className="flex items-center space-x-4">
+                <Button variant="ghost" size="icon">
+                  <Bell className="h-4 w-4" />
+                </Button>
+                <Select defaultValue="practical">
+                  <SelectTrigger className="w-32">
+                    <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="practical">Practical</SelectItem>
                     <SelectItem value="theoretical">Theoretical</SelectItem>
-                    <SelectItem value="real-life">Real-life Examples</SelectItem>
+                    <SelectItem value="examples">Real Examples</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-            )}
+            </div>
+          </header>
 
-            <Button onClick={generateContent} className="w-full" disabled={!topic || !selectedTool}>
-              <Brain className="h-4 w-4 mr-2" />
-              Generate Content
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Generated Content</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {result ? (
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <pre className="whitespace-pre-wrap text-sm">{result}</pre>
+          {/* Main Content */}
+          <main className="p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 min-h-[calc(100vh-4rem)]">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">AI-Powered Learning Assistant</h2>
+                <p className="text-gray-600">Get personalized help with AI-generated content tailored to your learning style</p>
               </div>
-            ) : (
-              <div className="text-center py-8 text-gray-500">
-                <Brain className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-                <p>Select a tool and enter a topic to generate content</p>
+
+              {/* AI Tools Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                {/* Question Papers Generator */}
+                <Card className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <FileText className="h-6 w-6 mr-3 text-blue-600" />
+                      Question Papers
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 mb-4">Generate practice question papers for any subject or topic</p>
+                    <div className="space-y-2 mb-4">
+                      <div className="text-sm text-gray-500">✓ Subject-specific questions</div>
+                      <div className="text-sm text-gray-500">✓ Difficulty levels</div>
+                      <div className="text-sm text-gray-500">✓ Time-based papers</div>
+                    </div>
+                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600">
+                      <Bot className="h-4 w-4 mr-2" />
+                      Generate Paper
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Flashcards Generator */}
+                <Card className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <Zap className="h-6 w-6 mr-3 text-yellow-600" />
+                      AI Flashcards
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 mb-4">Create smart flashcards for quick revision and memorization</p>
+                    <div className="space-y-2 mb-4">
+                      <div className="text-sm text-gray-500">✓ Key concepts extraction</div>
+                      <div className="text-sm text-gray-500">✓ Spaced repetition</div>
+                      <div className="text-sm text-gray-500">✓ Progress tracking</div>
+                    </div>
+                    <Button className="w-full bg-gradient-to-r from-yellow-600 to-orange-600">
+                      <Zap className="h-4 w-4 mr-2" />
+                      Create Flashcards
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Quiz Generator */}
+                <Card className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <HelpCircle className="h-6 w-6 mr-3 text-green-600" />
+                      Quick Quiz
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 mb-4">Generate instant quizzes for quick practice and assessment</p>
+                    <div className="space-y-2 mb-4">
+                      <div className="text-sm text-gray-500">✓ Multiple choice questions</div>
+                      <div className="text-sm text-gray-500">✓ Instant feedback</div>
+                      <div className="text-sm text-gray-500">✓ Score tracking</div>
+                    </div>
+                    <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-600">
+                      <Brain className="h-4 w-4 mr-2" />
+                      Start Quiz
+                    </Button>
+                  </CardContent>
+                </Card>
               </div>
-            )}
-          </CardContent>
-        </Card>
+
+              {/* AI Explanation Tool */}
+              <Card className="bg-white/80 backdrop-blur-lg border-white/30">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <BookOpen className="h-6 w-6 mr-3 text-purple-600" />
+                    AI Topic Explanation
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600 mb-6">Get personalized explanations for any topic based on your learning style</p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div className="text-center p-4 bg-blue-50 rounded-lg">
+                      <Brain className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+                      <h3 className="font-medium">Practical Approach</h3>
+                      <p className="text-sm text-gray-600">Real-world applications and examples</p>
+                    </div>
+                    <div className="text-center p-4 bg-green-50 rounded-lg">
+                      <FileText className="h-8 w-8 mx-auto mb-2 text-green-600" />
+                      <h3 className="font-medium">Theoretical Deep-dive</h3>
+                      <p className="text-sm text-gray-600">Detailed concepts and principles</p>
+                    </div>
+                    <div className="text-center p-4 bg-purple-50 rounded-lg">
+                      <Zap className="h-8 w-8 mx-auto mb-2 text-purple-600" />
+                      <h3 className="font-medium">Visual Examples</h3>
+                      <p className="text-sm text-gray-600">Diagrams and real-life scenarios</p>
+                    </div>
+                  </div>
+
+                  <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600">
+                    <Bot className="h-4 w-4 mr-2" />
+                    Ask AI to Explain
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </main>
+        </SidebarInset>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-          <CardContent className="pt-6 text-center">
-            <FileText className="h-8 w-8 mx-auto mb-2 text-blue-600" />
-            <h3 className="font-semibold">Question Papers</h3>
-            <p className="text-sm text-gray-600">Generate custom question papers</p>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-          <CardContent className="pt-6 text-center">
-            <BookOpen className="h-8 w-8 mx-auto mb-2 text-green-600" />
-            <h3 className="font-semibold">Flashcards</h3>
-            <p className="text-sm text-gray-600">Create study flashcards</p>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-          <CardContent className="pt-6 text-center">
-            <HelpCircle className="h-8 w-8 mx-auto mb-2 text-orange-600" />
-            <h3 className="font-semibold">Quick Quiz</h3>
-            <p className="text-sm text-gray-600">Practice with quizzes</p>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-          <CardContent className="pt-6 text-center">
-            <Zap className="h-8 w-8 mx-auto mb-2 text-purple-600" />
-            <h3 className="font-semibold">AI Explanation</h3>
-            <p className="text-sm text-gray-600">Get personalized explanations</p>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+    </SidebarProvider>
   );
 };
 
