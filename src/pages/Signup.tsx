@@ -1,5 +1,5 @@
-
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -32,11 +33,17 @@ const Signup = () => {
     }
     // Firebase authentication will be implemented here
     console.log('Signup attempt:', formData);
+    
+    // For now, redirect to dashboard after signup
+    navigate('/dashboard');
   };
 
   const handleGoogleSignup = () => {
     // Google authentication will be implemented here
     console.log('Google signup attempt');
+    
+    // For now, redirect to dashboard after Google signup
+    navigate('/dashboard');
   };
 
   return (

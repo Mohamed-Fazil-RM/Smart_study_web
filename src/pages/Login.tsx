@@ -1,5 +1,5 @@
-
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,11 +17,17 @@ const Login = () => {
     e.preventDefault();
     // Firebase authentication will be implemented here
     console.log('Login attempt:', { email, password });
+    
+    // For now, redirect to dashboard after login
+    navigate('/dashboard');
   };
 
   const handleGoogleLogin = () => {
     // Google authentication will be implemented here
     console.log('Google login attempt');
+    
+    // For now, redirect to dashboard after Google login
+    navigate('/dashboard');
   };
 
   return (

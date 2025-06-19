@@ -76,28 +76,34 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled 
-          ? 'bg-white/80 backdrop-blur-lg border-b border-white/20 py-2' 
-          : 'bg-transparent py-4'
-      }`}>
-        <div className="container mx-auto px-6 flex items-center justify-between">
-          <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            Smart Study
-          </div>
-          
-          <div className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-gray-700 hover:text-blue-600 transition-colors">Features</a>
-            <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors">About</a>
-            <a href="#testimonials" className="text-gray-700 hover:text-blue-600 transition-colors">Testimonials</a>
-            <Link to="/login">
-              <Button variant="outline" className="mr-2">Login</Button>
-            </Link>
-            <Link to="/signup">
-              <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
-                Get Started
-              </Button>
-            </Link>
+      <nav className="relative z-50 bg-white/80 backdrop-blur-lg border-b border-white/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Smart Study
+            </div>
+            
+            <div className="hidden md:flex items-center space-x-12">
+              <a href="#features" className="text-gray-700 hover:text-blue-600 transition-colors">Features</a>
+              <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors">About</a>
+              <a href="#testimonials" className="text-gray-700 hover:text-blue-600 transition-colors">Testimonials</a>
+            </div>
+            
+            <div className="flex items-center space-x-3">
+              <Link to="/login">
+                <Button 
+                  variant="ghost" 
+                  className="text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                >
+                  Login
+                </Button>
+              </Link>
+              <Link to="/signup">
+                <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-full">
+                  Sign up
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
