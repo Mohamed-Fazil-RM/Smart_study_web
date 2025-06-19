@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -11,39 +12,27 @@ const Signup = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
     // Firebase authentication will be implemented here
-    console.log('Signup attempt:', formData);
+    console.log('Signup attempt:', { firstName, lastName, email, password });
     
-    // For now, redirect to dashboard after signup
-    navigate('/dashboard');
+    // For now, redirect to onboarding after signup
+    navigate('/onboarding');
   };
 
   const handleGoogleSignup = () => {
     // Google authentication will be implemented here
     console.log('Google signup attempt');
     
-    // For now, redirect to dashboard after Google signup
-    navigate('/dashboard');
+    // For now, redirect to onboarding after Google signup
+    navigate('/onboarding');
   };
 
   return (
@@ -54,22 +43,35 @@ const Signup = () => {
             Smart Study
           </div>
           <CardTitle className="text-2xl text-gray-900">Create Account</CardTitle>
-          <p className="text-gray-600">Join thousands of students achieving academic success</p>
+          <p className="text-gray-600">Join thousands of students already learning smarter</p>
         </CardHeader>
         
         <CardContent className="space-y-6">
           <form onSubmit={handleSignup} className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Full Name</label>
-              <div className="relative">
-                <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">First Name</label>
+                <div className="relative">
+                  <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    type="text"
+                    placeholder="First name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="pl-10 bg-white/50"
+                    required
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">Last Name</label>
                 <Input
                   type="text"
-                  name="name"
-                  placeholder="Enter your full name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="pl-10 bg-white/50"
+                  placeholder="Last name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="bg-white/50"
                   required
                 />
               </div>
@@ -81,10 +83,9 @@ const Signup = () => {
                 <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 <Input
                   type="email"
-                  name="email"
                   placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleInputChange}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="pl-10 bg-white/50"
                   required
                 />
@@ -97,10 +98,9 @@ const Signup = () => {
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 <Input
                   type={showPassword ? "text" : "password"}
-                  name="password"
                   placeholder="Create a password"
-                  value={formData.password}
-                  onChange={handleInputChange}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="pl-10 pr-10 bg-white/50"
                   required
                 />
@@ -120,10 +120,9 @@ const Signup = () => {
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                 <Input
                   type={showConfirmPassword ? "text" : "password"}
-                  name="confirmPassword"
                   placeholder="Confirm your password"
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   className="pl-10 pr-10 bg-white/50"
                   required
                 />
