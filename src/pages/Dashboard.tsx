@@ -106,7 +106,7 @@ const Dashboard = () => {
 
                 {/* Welcome Banner */}
                 <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
-                  <CardContent className="p-6 rounded-3xl">
+                  <CardContent className="p-6 px-[24px] rounded-full">
                     <div className="flex items-center justify-between">
                       <div>
                         <h2 className="text-2xl font-bold mb-2">Hello, Gareth!</h2>
