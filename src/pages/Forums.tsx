@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,12 +5,13 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/AppSidebar';
+import { NewPostDialog } from '@/components/forums/NewPostDialog';
 import { MessageSquare, Users, Plus, Search, Image, DollarSign, Bell } from 'lucide-react';
 
 const Forums = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const publicPosts = [
+  const [publicPosts, setPublicPosts] = useState([
     {
       id: 1,
       title: 'Need help with Data Structures assignment',
@@ -31,13 +31,22 @@ const Forums = () => {
       college: 'The New College',
       payment: '₹2000'
     }
-  ];
+  ]);
 
   const communities = [
     { id: 1, name: 'IIT Madras - Computer Science', members: 1240, active: true },
     { id: 2, name: 'Web Development Hub', members: 856, active: false },
     { id: 3, name: 'Data Science Study Group', members: 642, active: false }
   ];
+
+  const handleNewPost = (newPost: any) => {
+    setPublicPosts([newPost, ...publicPosts]);
+  };
+
+  const filteredPosts = publicPosts.filter(post =>
+    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    post.author.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <SidebarProvider>
@@ -55,10 +64,7 @@ const Forums = () => {
                 <Button variant="ghost" size="icon">
                   <Bell className="h-4 w-4" />
                 </Button>
-                <Button>
-                  <Plus className="h-4 w-4 mr-2" />
-                  New Post
-                </Button>
+                <NewPostDialog onPostCreated={handleNewPost} />
               </div>
             </div>
           </header>
@@ -85,7 +91,7 @@ const Forums = () => {
 
                 {/* Posts */}
                 <div className="space-y-4">
-                  {publicPosts.map((post) => (
+                  {filteredPosts.map((post) => (
                     <Card key={post.id} className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow">
                       <CardHeader>
                         <div className="flex items-start justify-between">
