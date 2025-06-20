@@ -1,4 +1,3 @@
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
@@ -6,12 +5,10 @@ import { AppSidebar } from '@/components/AppSidebar';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { BookOpen, Calendar, MessageSquare, BarChart3, User, Settings, Bell, Play, Pause, RotateCcw, ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import { useState, useEffect } from 'react';
-
 const Dashboard = () => {
   const [focusTime, setFocusTime] = useState(25 * 60); // 25 minutes in seconds
   const [isRunning, setIsRunning] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
-
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isRunning && focusTime > 0) {
@@ -23,66 +20,44 @@ const Dashboard = () => {
     }
     return () => clearInterval(interval);
   }, [isRunning, focusTime]);
-
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
-
   const resetTimer = () => {
     setFocusTime(25 * 60);
     setIsRunning(false);
   };
-
   const toggleTimer = () => {
     setIsRunning(!isRunning);
   };
-
   const getDaysInMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
   };
-
   const getFirstDayOfMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
   };
-
-  const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const renderCalendar = () => {
     const daysInMonth = getDaysInMonth(currentDate);
     const firstDay = getFirstDayOfMonth(currentDate);
     const days = [];
-    
+
     // Empty cells for days before the first day of the month
     for (let i = 0; i < firstDay; i++) {
       days.push(<div key={`empty-${i}`} className="w-8 h-8"></div>);
     }
-    
+
     // Days of the month
     for (let day = 1; day <= daysInMonth; day++) {
-      const isToday = day === new Date().getDate() && 
-                     currentDate.getMonth() === new Date().getMonth() && 
-                     currentDate.getFullYear() === new Date().getFullYear();
-      
-      days.push(
-        <div
-          key={day}
-          className={`w-8 h-8 flex items-center justify-center text-sm cursor-pointer rounded-md ${
-            isToday ? 'bg-blue-500 text-white font-semibold' : 'hover:bg-gray-100'
-          }`}
-        >
+      const isToday = day === new Date().getDate() && currentDate.getMonth() === new Date().getMonth() && currentDate.getFullYear() === new Date().getFullYear();
+      days.push(<div key={day} className={`w-8 h-8 flex items-center justify-center text-sm cursor-pointer rounded-md ${isToday ? 'bg-blue-500 text-white font-semibold' : 'hover:bg-gray-100'}`}>
           {day}
-        </div>
-      );
+        </div>);
     }
-    
     return days;
   };
-
   const navigateMonth = (direction: 'prev' | 'next') => {
     setCurrentDate(prev => {
       const newDate = new Date(prev);
@@ -94,9 +69,7 @@ const Dashboard = () => {
       return newDate;
     });
   };
-
-  return (
-    <SidebarProvider>
+  return <SidebarProvider>
       <div className="flex min-h-screen w-full">
         <AppSidebar />
         <SidebarInset className="flex-1">
@@ -133,7 +106,7 @@ const Dashboard = () => {
 
                 {/* Welcome Banner */}
                 <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
-                  <CardContent className="p-6">
+                  <CardContent className="p-6 rounded-3xl">
                     <div className="flex items-center justify-between">
                       <div>
                         <h2 className="text-2xl font-bold mb-2">Hello, Gareth!</h2>
@@ -224,12 +197,14 @@ const Dashboard = () => {
                           <span className="text-sm text-gray-600">This Week</span>
                         </div>
                         <div className="flex items-end gap-2 h-32">
-                          {[8, 12, 6, 15, 10, 18, 14].map((height, index) => (
-                            <div key={index} className="flex flex-col items-center gap-1">
-                              <div className={`w-6 bg-yellow-300 rounded-t`} style={{ height: `${height * 4}px` }}></div>
-                              <div className={`w-6 bg-blue-500 rounded-b`} style={{ height: `${(20 - height) * 3}px` }}></div>
-                            </div>
-                          ))}
+                          {[8, 12, 6, 15, 10, 18, 14].map((height, index) => <div key={index} className="flex flex-col items-center gap-1">
+                              <div className={`w-6 bg-yellow-300 rounded-t`} style={{
+                            height: `${height * 4}px`
+                          }}></div>
+                              <div className={`w-6 bg-blue-500 rounded-b`} style={{
+                            height: `${(20 - height) * 3}px`
+                          }}></div>
+                            </div>)}
                         </div>
                       </div>
                     </CardContent>
@@ -242,12 +217,9 @@ const Dashboard = () => {
                     <CardContent className="flex flex-col items-center space-y-4">
                       <div className="relative w-32 h-32">
                         <div className="w-full h-full border-8 border-gray-200 rounded-full"></div>
-                        <div 
-                          className="absolute inset-0 border-8 border-blue-500 rounded-full"
-                          style={{
-                            clipPath: `polygon(50% 50%, 50% 0%, ${50 + (50 * (1 - focusTime / (25 * 60)))}% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 50% 0%)`
-                          }}
-                        ></div>
+                        <div className="absolute inset-0 border-8 border-blue-500 rounded-full" style={{
+                        clipPath: `polygon(50% 50%, 50% 0%, ${50 + 50 * (1 - focusTime / (25 * 60))}% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 50% 0%)`
+                      }}></div>
                         <div className="absolute inset-0 flex items-center justify-center">
                           <span className="text-2xl font-bold">{formatTime(focusTime)}</span>
                         </div>
@@ -271,13 +243,31 @@ const Dashboard = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {[
-                        { title: "Market Analysis Report", subject: "Business Strategy", due: "Oct 23, 2027", progress: 30, priority: "High" },
-                        { title: "Corporate Finance Case Study", subject: "Finance", due: "Nov 5, 2027", progress: 0, priority: "Not Started" },
-                        { title: "Leadership Styles Essay", subject: "Organizational Management", due: "Nov 10, 2027", progress: 50, priority: "Medium" },
-                        { title: "Business Ethics Presentation", subject: "Business Ethics", due: "Dec 15, 2027", progress: 20, priority: "Low" }
-                      ].map((assignment, index) => (
-                        <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      {[{
+                      title: "Market Analysis Report",
+                      subject: "Business Strategy",
+                      due: "Oct 23, 2027",
+                      progress: 30,
+                      priority: "High"
+                    }, {
+                      title: "Corporate Finance Case Study",
+                      subject: "Finance",
+                      due: "Nov 5, 2027",
+                      progress: 0,
+                      priority: "Not Started"
+                    }, {
+                      title: "Leadership Styles Essay",
+                      subject: "Organizational Management",
+                      due: "Nov 10, 2027",
+                      progress: 50,
+                      priority: "Medium"
+                    }, {
+                      title: "Business Ethics Presentation",
+                      subject: "Business Ethics",
+                      due: "Dec 15, 2027",
+                      progress: 20,
+                      priority: "Low"
+                    }].map((assignment, index) => <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                               <BookOpen className="w-4 h-4 text-blue-600" />
@@ -289,24 +279,17 @@ const Dashboard = () => {
                           </div>
                           <div className="flex items-center gap-4">
                             <span className="text-sm text-gray-600">{assignment.due}</span>
-                            <span className={`text-xs px-2 py-1 rounded-full ${
-                              assignment.priority === 'High' ? 'bg-red-100 text-red-600' :
-                              assignment.priority === 'Medium' ? 'bg-yellow-100 text-yellow-600' :
-                              assignment.priority === 'Low' ? 'bg-green-100 text-green-600' :
-                              'bg-gray-100 text-gray-600'
-                            }`}>
+                            <span className={`text-xs px-2 py-1 rounded-full ${assignment.priority === 'High' ? 'bg-red-100 text-red-600' : assignment.priority === 'Medium' ? 'bg-yellow-100 text-yellow-600' : assignment.priority === 'Low' ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-600'}`}>
                               {assignment.priority}
                             </span>
                             <div className="w-16 bg-gray-200 rounded-full h-2">
-                              <div 
-                                className="bg-blue-500 h-2 rounded-full" 
-                                style={{ width: `${assignment.progress}%` }}
-                              ></div>
+                              <div className="bg-blue-500 h-2 rounded-full" style={{
+                            width: `${assignment.progress}%`
+                          }}></div>
                             </div>
                             <span className="text-sm text-gray-600">{assignment.progress}%</span>
                           </div>
-                        </div>
-                      ))}
+                        </div>)}
                     </div>
                   </CardContent>
                 </Card>
@@ -322,18 +305,10 @@ const Dashboard = () => {
                         {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
                       </CardTitle>
                       <div className="flex gap-1">
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => navigateMonth('prev')}
-                        >
+                        <Button variant="ghost" size="sm" onClick={() => navigateMonth('prev')}>
                           <ChevronLeft className="w-4 h-4" />
                         </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => navigateMonth('next')}
-                        >
+                        <Button variant="ghost" size="sm" onClick={() => navigateMonth('next')}>
                           <ChevronRight className="w-4 h-4" />
                         </Button>
                       </div>
@@ -341,11 +316,9 @@ const Dashboard = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-7 gap-1 mb-2">
-                      {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                        <div key={day} className="text-xs text-gray-500 text-center py-1">
+                      {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => <div key={day} className="text-xs text-gray-500 text-center py-1">
                           {day}
-                        </div>
-                      ))}
+                        </div>)}
                     </div>
                     <div className="grid grid-cols-7 gap-1">
                       {renderCalendar()}
@@ -432,8 +405,6 @@ const Dashboard = () => {
           </main>
         </SidebarInset>
       </div>
-    </SidebarProvider>
-  );
+    </SidebarProvider>;
 };
-
 export default Dashboard;
