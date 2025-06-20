@@ -120,7 +120,7 @@ const Dashboard = () => {
                     </Button>
                     <div className="flex items-center gap-3">
                       <Avatar>
-                        <AvatarImage src="" />
+                        <AvatarImage src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=150&h=150&fit=crop&crop=face" />
                         <AvatarFallback>GC</AvatarFallback>
                       </Avatar>
                       <div>
@@ -142,8 +142,11 @@ const Dashboard = () => {
                           Explore New Classes
                         </Button>
                       </div>
-                      <div className="w-32 h-32 bg-blue-400 rounded-lg flex items-center justify-center">
-                        <User className="w-16 h-16 text-white" />
+                      <div className="w-32 h-32 rounded-lg flex items-center justify-center overflow-hidden">
+                        <Avatar className="w-32 h-32">
+                          <AvatarImage src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=150&h=150&fit=crop&crop=face" className="object-cover" />
+                          <AvatarFallback className="w-32 h-32 text-4xl bg-blue-400 text-white">GC</AvatarFallback>
+                        </Avatar>
                       </div>
                     </div>
                   </CardContent>
