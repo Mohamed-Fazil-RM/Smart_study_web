@@ -18,17 +18,6 @@ const typeStyles = {
   info: "bg-blue-100 text-blue-800 border-blue-300",
 };
 
-const fadeInBlur = {
-  initial: { opacity: 0, filter: "blur(10px)", y: 10, rotate: 0 },
-  animate: {
-    opacity: 1,
-    filter: "blur(0px)",
-    y: 0,
-    rotate: 0,
-    transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] },
-  },
-};
-
 const Alert: React.FC<AlertProps> = ({
   type = "info",
   message = "This is an alert message.",
@@ -41,22 +30,27 @@ const Alert: React.FC<AlertProps> = ({
         typeStyles[type]
       )}
       role="alert"
-      variants={fadeInBlur}
-      initial="initial"
-      animate="animate"
+      initial={{ opacity: 0, filter: "blur(10px)", y: 10, rotate: 0 }}
+      animate={{ 
+        opacity: 1, 
+        filter: "blur(0px)", 
+        y: 0, 
+        rotate: 0,
+        transition: { duration: 0.2, ease: "easeOut" }
+      }}
       whileHover={{
         scale: 1.01,
         rotate: 1,
         transition: {
           duration: 0.2,
-          ease: [0.4, 0, 0.2, 1],
+          ease: "easeOut",
         },
       }}
       whileTap={{
         scale: 0.99,
         transition: {
           duration: 0.2,
-          ease: [0.4, 0, 0.2, 1],
+          ease: "easeOut",
         },
       }}
       onClick={onClick}
