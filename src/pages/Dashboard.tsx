@@ -210,7 +210,7 @@ const Dashboard = () => {
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-white">
+                  <Card className="bg-white px-[24px] py-[24px] rounded-2xl">
                     <CardHeader>
                       <CardTitle className="text-lg">Focus Mode</CardTitle>
                     </CardHeader>
