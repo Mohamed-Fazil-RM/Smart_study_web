@@ -186,7 +186,7 @@ const Dashboard = () => {
 
                 {/* Learning Activity and Focus Mode */}
                 <div className="grid grid-cols-2 gap-6">
-                  <Card className="bg-white">
+                  <Card className="bg-white px-[24px] py-[24px] rounded-2xl">
                     <CardHeader>
                       <CardTitle className="text-lg">Learning Activity</CardTitle>
                     </CardHeader>
