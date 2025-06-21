@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -54,7 +55,7 @@ export function PricingCard({ tier, paymentFrequency }: PricingCardProps) {
         {typeof price === "number" ? (
           <>
             <div className="text-4xl font-medium">
-              $48
+              ${price}
             </div>
             <p className="-mt-2 text-xs text-muted-foreground">
               Per month

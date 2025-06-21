@@ -5,88 +5,130 @@ import { Link } from 'react-router-dom';
 import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards';
 import { BouncyCardsFeatures } from '@/components/ui/bounce-card-features';
 import { PricingSection } from '@/components/ui/pricing-section';
+
 const Index = () => {
   const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  const features = [{
-    icon: BookOpen,
-    title: "Smart Resources",
-    description: "Access curated notes, papers, and study materials for your specific course"
-  }, {
-    icon: Users,
-    title: "Discussion Forums",
-    description: "Connect with peers, get help, and collaborate on academic projects"
-  }, {
-    icon: Calendar,
-    title: "Schedule Planner",
-    description: "Organize your study schedule with intelligent task management"
-  }, {
-    icon: TrendingUp,
-    title: "Grade Ninja",
-    description: "Track your academic progress with GPA and percentage calculators"
-  }];
-  const testimonials = [{
-    quote: "Smart Study transformed how I organize my computer science coursework. The AI assistance is incredible and helped me improve my grades significantly!",
-    name: "Sarah Johnson",
-    title: "MIT"
-  }, {
-    quote: "Finally found a platform that understands student needs. The discussion forums are so helpful and the AI explanations are spot-on.",
-    name: "Alex Chen",
-    title: "Stanford"
-  }, {
-    quote: "The schedule planner and grade tracking features helped me improve my GPA from 3.2 to 3.8 in just one semester!",
-    name: "Maria Rodriguez",
-    title: "Harvard"
-  }, {
-    quote: "The AI-powered study modes and spaced repetition feature completely changed how I learn. My retention rate improved by 70%.",
-    name: "David Kim",
-    title: "UC Berkeley"
-  }, {
-    quote: "Being able to upload lecture slides and get instant flashcards and explanations saves me hours every week.",
-    name: "Emily Watson",
-    title: "Oxford"
-  }, {
-    quote: "The mock exams feature is a game-changer. I feel much more confident going into real exams now.",
-    name: "Michael Brown",
-    title: "Yale"
-  }];
-  const pricingTiers = [{
-    name: "Free",
-    price: {
-      monthly: "Free",
-      yearly: "Free"
+
+  const features = [
+    {
+      icon: BookOpen,
+      title: "Smart Resources",
+      description: "Access curated notes, papers, and study materials for your specific course"
     },
-    description: "Perfect for getting started",
-    features: ["Limited downloads", "Limited storage", "Ads included", "Limited AI responses", "Basic support"],
-    cta: "Get Started"
-  }, {
-    name: "Pro",
-    price: {
-      monthly: 5,
-      yearly: 50
+    {
+      icon: Users,
+      title: "Discussion Forums",
+      description: "Connect with peers, get help, and collaborate on academic projects"
     },
-    description: "Great for active students",
-    features: ["Up to 8 doc downloads", "Ads included", "Free access to workshops", "30 AI tokens monthly", "Priority support"],
-    cta: "Choose Pro",
-    popular: true
-  }, {
-    name: "Pro Plus",
-    price: {
-      monthly: 9,
-      yearly: 80
+    {
+      icon: Calendar,
+      title: "Schedule Planner",
+      description: "Organize your study schedule with intelligent task management"
     },
-    description: "Best for power users",
-    features: ["Unlimited downloads & storage", "Ad-free experience", "Unlimited AI usage", "All workshops included", "Premium support"],
-    cta: "Go Pro Plus",
-    highlighted: true
-  }];
-  return <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    {
+      icon: TrendingUp,
+      title: "Grade Ninja",
+      description: "Track your academic progress with GPA and percentage calculators"
+    }
+  ];
+
+  const testimonials = [
+    {
+      quote: "Smart Study transformed how I organize my computer science coursework. The AI assistance is incredible and helped me improve my grades significantly!",
+      name: "Sarah Johnson",
+      title: "MIT"
+    },
+    {
+      quote: "Finally found a platform that understands student needs. The discussion forums are so helpful and the AI explanations are spot-on.",
+      name: "Alex Chen",
+      title: "Stanford"
+    },
+    {
+      quote: "The schedule planner and grade tracking features helped me improve my GPA from 3.2 to 3.8 in just one semester!",
+      name: "Maria Rodriguez",
+      title: "Harvard"
+    },
+    {
+      quote: "The AI-powered study modes and spaced repetition feature completely changed how I learn. My retention rate improved by 70%.",
+      name: "David Kim",
+      title: "UC Berkeley"
+    },
+    {
+      quote: "Being able to upload lecture slides and get instant flashcards and explanations saves me hours every week.",
+      name: "Emily Watson",
+      title: "Oxford"
+    },
+    {
+      quote: "The mock exams feature is a game-changer. I feel much more confident going into real exams now.",
+      name: "Michael Brown",
+      title: "Yale"
+    }
+  ];
+
+  const pricingTiers = [
+    {
+      name: "Free",
+      price: {
+        monthly: "Free",
+        yearly: "Free",
+      },
+      description: "Perfect for getting started",
+      features: [
+        "Limited downloads",
+        "Limited storage",
+        "Ads included",
+        "Limited AI responses",
+        "Basic support"
+      ],
+      cta: "Get Started",
+    },
+    {
+      name: "Pro",
+      price: {
+        monthly: 5,
+        yearly: 50,
+      },
+      description: "Great for active students",
+      features: [
+        "Up to 8 doc downloads",
+        "Ads included",
+        "Free access to workshops",
+        "30 AI tokens monthly",
+        "Priority support"
+      ],
+      cta: "Choose Pro",
+      popular: true,
+    },
+    {
+      name: "Pro Plus",
+      price: {
+        monthly: 9,
+        yearly: 80,
+      },
+      description: "Best for power users",
+      features: [
+        "Unlimited downloads & storage",
+        "Ad-free experience",
+        "Unlimited AI usage",
+        "All workshops included",
+        "Premium support"
+      ],
+      cta: "Go Pro Plus",
+      highlighted: true,
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Navigation */}
       <nav className="relative z-50 bg-white/80 backdrop-blur-lg border-b border-white/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -104,7 +146,10 @@ const Index = () => {
             
             <div className="flex items-center space-x-3">
               <Link to="/login">
-                <Button variant="ghost" className="text-gray-700 hover:text-blue-600 hover:bg-blue-50">
+                <Button 
+                  variant="ghost" 
+                  className="text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                >
                   Login
                 </Button>
               </Link>
@@ -166,13 +211,15 @@ const Index = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => <div key={index} className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-white/30 hover:shadow-lg transition-all duration-300 hover:transform hover:scale-105">
+            {features.map((feature, index) => (
+              <div key={index} className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-white/30 hover:shadow-lg transition-all duration-300 hover:transform hover:scale-105">
                 <div className="bg-gradient-to-br from-blue-100 to-indigo-100 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                   <feature.icon className="w-6 h-6 text-blue-600" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3 text-gray-900">{feature.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-              </div>)}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -215,7 +262,12 @@ const Index = () => {
       {/* Pricing Section */}
       <section id="pricing" className="py-20 px-6">
         <div className="container mx-auto">
-          <PricingSection title="Simple, Transparent Pricing" subtitle="Choose the perfect plan for your academic journey" frequencies={["monthly", "yearly"]} tiers={pricingTiers} />
+          <PricingSection
+            title="Simple, Transparent Pricing"
+            subtitle="Choose the perfect plan for your academic journey"
+            frequencies={["monthly", "yearly"]}
+            tiers={pricingTiers}
+          />
         </div>
       </section>
 
@@ -227,7 +279,12 @@ const Index = () => {
             <p className="text-xl text-gray-600">Join thousands of students who've transformed their academic journey</p>
           </div>
 
-          <InfiniteMovingCards items={testimonials} direction="right" speed="slow" className="mb-8" />
+          <InfiniteMovingCards
+            items={testimonials}
+            direction="right"
+            speed="slow"
+            className="mb-8"
+          />
         </div>
       </section>
 
@@ -235,7 +292,7 @@ const Index = () => {
       <section className="py-32 px-6 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700">
         <div className="container mx-auto text-center">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-5xl font-bold mb-6 text-white leading-tight md:text-8xl">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-white leading-tight">
               Study anywhere. Anytime.
               <br />
               Across all devices.
@@ -309,6 +366,8 @@ const Index = () => {
           </div>
         </div>
       </footer>
-    </div>;
+    </div>
+  );
 };
+
 export default Index;
