@@ -1,160 +1,150 @@
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/components/AppSidebar';
-import { Bot, FileText, Zap, Brain, BookOpen, HelpCircle, Bell } from 'lucide-react';
+import React from 'react';
+import { BentoCard, BentoGrid } from '@/components/ui/bento-grid';
+import { 
+  HelpCircle, 
+  MessageSquare, 
+  BookOpen, 
+  Users, 
+  Video,
+  FileText,
+  Zap,
+  Brain
+} from 'lucide-react';
 
 const Assistance = () => {
+  const assistanceFeatures = [
+    {
+      Icon: MessageSquare,
+      name: "Live Chat Support",
+      description: "Get instant help from our support team. Available 24/7 to answer your questions and resolve issues.",
+      href: "/chat",
+      cta: "Start Chat",
+      background: (
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-indigo-600/20">
+          <div className="absolute -right-20 -top-20 w-40 h-40 bg-blue-400/30 rounded-full blur-xl" />
+          <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-indigo-400/20 rounded-full blur-lg" />
+        </div>
+      ),
+      className: "lg:row-start-1 lg:row-end-3 lg:col-start-1 lg:col-end-2",
+    },
+    {
+      Icon: Brain,
+      name: "AI Study Assistant",
+      description: "Get personalized study recommendations, explanations, and academic guidance powered by AI.",
+      href: "/ai-assistant",
+      cta: "Try AI Assistant",
+      background: (
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-600/20">
+          <div className="absolute -right-16 -top-16 w-36 h-36 bg-purple-400/30 rounded-full blur-xl" />
+          <div className="absolute -left-8 -bottom-8 w-28 h-28 bg-pink-400/20 rounded-full blur-lg" />
+        </div>
+      ),
+      className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
+    },
+    {
+      Icon: BookOpen,
+      name: "Study Guides",
+      description: "Access comprehensive study guides and resources for all subjects and courses.",
+      href: "/guides",
+      cta: "Browse Guides",
+      background: (
+        <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-emerald-600/20">
+          <div className="absolute -right-14 -top-14 w-32 h-32 bg-green-400/30 rounded-full blur-xl" />
+          <div className="absolute -left-6 -bottom-6 w-24 h-24 bg-emerald-400/20 rounded-full blur-lg" />
+        </div>
+      ),
+      className: "lg:row-start-3 lg:row-end-4 lg:col-start-1 lg:col-end-2",
+    },
+    {
+      Icon: Video,
+      name: "Video Tutorials",
+      description: "Watch step-by-step video tutorials covering various academic topics and study techniques.",
+      href: "/tutorials",
+      cta: "Watch Videos",
+      background: (
+        <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 to-orange-600/20">
+          <div className="absolute -right-12 -top-12 w-30 h-30 bg-red-400/30 rounded-full blur-xl" />
+          <div className="absolute -left-4 -bottom-4 w-20 h-20 bg-orange-400/20 rounded-full blur-lg" />
+        </div>
+      ),
+      className: "lg:row-start-1 lg:row-end-2 lg:col-start-3 lg:col-end-4",
+    },
+    {
+      Icon: Users,
+      name: "Peer Support",
+      description: "Connect with fellow students, join study groups, and get help from your academic community.",
+      href: "/peer-support",
+      cta: "Join Community",
+      background: (
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-teal-600/20">
+          <div className="absolute -right-10 -top-10 w-28 h-28 bg-cyan-400/30 rounded-full blur-xl" />
+          <div className="absolute -left-2 -bottom-2 w-16 h-16 bg-teal-400/20 rounded-full blur-lg" />
+        </div>
+      ),
+      className: "lg:row-start-2 lg:row-end-4 lg:col-start-3 lg:col-end-4",
+    },
+  ];
+
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full">
-        <AppSidebar />
-        <SidebarInset className="flex-1">
-          {/* Header */}
-          <header className="bg-white/80 backdrop-blur-lg border-b border-gray-200 sticky top-0 z-10">
-            <div className="flex justify-between items-center h-16 px-6">
-              <div className="flex items-center gap-4">
-                <SidebarTrigger className="h-7 w-7" />
-                <h1 className="text-xl font-semibold text-gray-900">AI Assistance</h1>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Button variant="ghost" size="icon">
-                  <Bell className="h-4 w-4" />
-                </Button>
-                <Select defaultValue="practical">
-                  <SelectTrigger className="w-32">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="practical">Practical</SelectItem>
-                    <SelectItem value="theoretical">Theoretical</SelectItem>
-                    <SelectItem value="examples">Real Examples</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="mb-12 text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full mb-6">
+            <HelpCircle className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Get the Help You Need
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Our comprehensive assistance platform provides multiple ways to get support, 
+            learn new concepts, and succeed in your academic journey.
+          </p>
+        </div>
+
+        {/* Bento Grid */}
+        <div className="mb-12">
+          <BentoGrid className="lg:grid-rows-3 max-w-6xl mx-auto">
+            {assistanceFeatures.map((feature) => (
+              <BentoCard key={feature.name} {...feature} />
+            ))}
+          </BentoGrid>
+        </div>
+
+        {/* Additional Help Section */}
+        <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              Need More Help?
+            </h2>
+            <p className="text-gray-600">
+              Can't find what you're looking for? Our support team is here to help.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="text-center p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+              <FileText className="w-8 h-8 text-blue-600 mx-auto mb-3" />
+              <h3 className="font-semibold mb-2">Documentation</h3>
+              <p className="text-sm text-gray-600">Browse our comprehensive docs</p>
             </div>
-          </header>
-
-          {/* Main Content */}
-          <main className="p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 min-h-[calc(100vh-4rem)]">
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">AI-Powered Learning Assistant</h2>
-                <p className="text-gray-600">Get personalized help with AI-generated content tailored to your learning style</p>
-              </div>
-
-              {/* AI Tools Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                {/* Question Papers Generator */}
-                <Card className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <FileText className="h-6 w-6 mr-3 text-blue-600" />
-                      Question Papers
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 mb-4">Generate practice question papers for any subject or topic</p>
-                    <div className="space-y-2 mb-4">
-                      <div className="text-sm text-gray-500">✓ Subject-specific questions</div>
-                      <div className="text-sm text-gray-500">✓ Difficulty levels</div>
-                      <div className="text-sm text-gray-500">✓ Time-based papers</div>
-                    </div>
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600">
-                      <Bot className="h-4 w-4 mr-2" />
-                      Generate Paper
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                {/* Flashcards Generator */}
-                <Card className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <Zap className="h-6 w-6 mr-3 text-yellow-600" />
-                      AI Flashcards
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 mb-4">Create smart flashcards for quick revision and memorization</p>
-                    <div className="space-y-2 mb-4">
-                      <div className="text-sm text-gray-500">✓ Key concepts extraction</div>
-                      <div className="text-sm text-gray-500">✓ Spaced repetition</div>
-                      <div className="text-sm text-gray-500">✓ Progress tracking</div>
-                    </div>
-                    <Button className="w-full bg-gradient-to-r from-yellow-600 to-orange-600">
-                      <Zap className="h-4 w-4 mr-2" />
-                      Create Flashcards
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                {/* Quiz Generator */}
-                <Card className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <HelpCircle className="h-6 w-6 mr-3 text-green-600" />
-                      Quick Quiz
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 mb-4">Generate instant quizzes for quick practice and assessment</p>
-                    <div className="space-y-2 mb-4">
-                      <div className="text-sm text-gray-500">✓ Multiple choice questions</div>
-                      <div className="text-sm text-gray-500">✓ Instant feedback</div>
-                      <div className="text-sm text-gray-500">✓ Score tracking</div>
-                    </div>
-                    <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-600">
-                      <Brain className="h-4 w-4 mr-2" />
-                      Start Quiz
-                    </Button>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* AI Explanation Tool */}
-              <Card className="bg-white/80 backdrop-blur-lg border-white/30">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <BookOpen className="h-6 w-6 mr-3 text-purple-600" />
-                    AI Topic Explanation
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 mb-6">Get personalized explanations for any topic based on your learning style</p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div className="text-center p-4 bg-blue-50 rounded-lg">
-                      <Brain className="h-8 w-8 mx-auto mb-2 text-blue-600" />
-                      <h3 className="font-medium">Practical Approach</h3>
-                      <p className="text-sm text-gray-600">Real-world applications and examples</p>
-                    </div>
-                    <div className="text-center p-4 bg-green-50 rounded-lg">
-                      <FileText className="h-8 w-8 mx-auto mb-2 text-green-600" />
-                      <h3 className="font-medium">Theoretical Deep-dive</h3>
-                      <p className="text-sm text-gray-600">Detailed concepts and principles</p>
-                    </div>
-                    <div className="text-center p-4 bg-purple-50 rounded-lg">
-                      <Zap className="h-8 w-8 mx-auto mb-2 text-purple-600" />
-                      <h3 className="font-medium">Visual Examples</h3>
-                      <p className="text-sm text-gray-600">Diagrams and real-life scenarios</p>
-                    </div>
-                  </div>
-
-                  <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600">
-                    <Bot className="h-4 w-4 mr-2" />
-                    Ask AI to Explain
-                  </Button>
-                </CardContent>
-              </Card>
+            
+            <div className="text-center p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+              <MessageSquare className="w-8 h-8 text-green-600 mx-auto mb-3" />
+              <h3 className="font-semibold mb-2">Contact Support</h3>
+              <p className="text-sm text-gray-600">Reach out via email or chat</p>
             </div>
-          </main>
-        </SidebarInset>
+            
+            <div className="text-center p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+              <Zap className="w-8 h-8 text-purple-600 mx-auto mb-3" />
+              <h3 className="font-semibold mb-2">Quick Start</h3>
+              <p className="text-sm text-gray-600">Get started in minutes</p>
+            </div>
+          </div>
+        </div>
       </div>
-    </SidebarProvider>
+    </div>
   );
 };
 
