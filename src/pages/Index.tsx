@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, BookOpen, Users, Calendar, TrendingUp, Star, Brain, Search, FileText, MessageSquare, Lightbulb, Sparkles } from 'lucide-react';
@@ -95,7 +96,7 @@ const Index = () => {
       name: "Pro",
       price: {
         monthly: 5,
-        yearly: 50,
+        yearly: 48,
       },
       description: "Great for active students",
       features: [
@@ -112,7 +113,7 @@ const Index = () => {
       name: "Pro Plus",
       price: {
         monthly: 9,
-        yearly: 80,
+        yearly: 72,
       },
       description: "Best for power users",
       features: [
@@ -130,7 +131,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Navigation */}
-      <nav className="relative z-50 bg-white/80 backdrop-blur-lg border-b border-white/30">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-white/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
@@ -139,8 +140,8 @@ const Index = () => {
             
             <div className="hidden md:flex items-center space-x-12">
               <a href="#features" className="text-gray-700 hover:text-blue-600 transition-colors">Features</a>
-              <a href="#pricing" className="text-gray-700 hover:text-blue-600 transition-colors">Pricing</a>
               <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors">About</a>
+              <a href="#pricing" className="text-gray-700 hover:text-blue-600 transition-colors">Pricing</a>
               <a href="#testimonials" className="text-gray-700 hover:text-blue-600 transition-colors">Testimonials</a>
             </div>
             
@@ -228,6 +229,14 @@ const Index = () => {
       <section className="py-20 px-6">
         <div className="container mx-auto">
           <BouncyCardsFeatures />
+          {/* Get Started Button at the bottom of AI features */}
+          <div className="flex justify-center mt-12">
+            <Link to="/signup">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 px-12 py-6 text-xl">
+                Get Started with AI
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -272,7 +281,7 @@ const Index = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 px-6">
+      <section id="testimonials" className="py-20 px-6 bg-white">
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-gray-900">What Students Say</h2>

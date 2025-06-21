@@ -3,6 +3,7 @@
 
 import * as React from "react"
 import { BadgeCheck, ArrowRight } from "lucide-react"
+import { Link } from "react-router-dom"
 
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
@@ -84,13 +85,15 @@ export function PricingCard({ tier, paymentFrequency }: PricingCardProps) {
         </ul>
       </div>
 
-      <Button
-        variant={isHighlighted ? "secondary" : "default"}
-        className="w-full"
-      >
-        {tier.cta}
-        <ArrowRight className="ml-2 h-4 w-4" />
-      </Button>
+      <Link to="/signup">
+        <Button
+          variant={isHighlighted ? "secondary" : "default"}
+          className="w-full"
+        >
+          {tier.cta}
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
+      </Link>
     </Card>
   )
 }

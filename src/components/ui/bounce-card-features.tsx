@@ -11,13 +11,6 @@ export const BouncyCardsFeatures = () => {
           Supercharged learning with
           <span className="text-blue-500"> AI</span>
         </h2>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="whitespace-nowrap rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 font-medium text-white shadow-xl transition-colors hover:from-blue-700 hover:to-indigo-700"
-        >
-          Get Started
-        </motion.button>
       </div>
       <div className="mb-4 grid grid-cols-12 gap-4">
         <BounceCard className="col-span-12 md:col-span-6">
