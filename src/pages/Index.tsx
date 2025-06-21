@@ -4,6 +4,7 @@ import { ChevronDown, BookOpen, Users, Calendar, TrendingUp, Star, Brain, Search
 import { Link } from 'react-router-dom';
 import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards';
 import { BouncyCardsFeatures } from '@/components/ui/bounce-card-features';
+import { PricingSection } from '@/components/ui/pricing-section';
 
 const Index = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -73,6 +74,59 @@ const Index = () => {
     }
   ];
 
+  const pricingTiers = [
+    {
+      name: "Free",
+      price: {
+        monthly: "Free",
+        yearly: "Free",
+      },
+      description: "Perfect for getting started",
+      features: [
+        "Limited downloads",
+        "Limited storage",
+        "Ads included",
+        "Limited AI responses",
+        "Basic support"
+      ],
+      cta: "Get Started",
+    },
+    {
+      name: "Pro",
+      price: {
+        monthly: 5,
+        yearly: 50,
+      },
+      description: "Great for active students",
+      features: [
+        "Up to 8 doc downloads",
+        "Ads included",
+        "Free access to workshops",
+        "30 AI tokens monthly",
+        "Priority support"
+      ],
+      cta: "Choose Pro",
+      popular: true,
+    },
+    {
+      name: "Pro Plus",
+      price: {
+        monthly: 9,
+        yearly: 80,
+      },
+      description: "Best for power users",
+      features: [
+        "Unlimited downloads & storage",
+        "Ad-free experience",
+        "Unlimited AI usage",
+        "All workshops included",
+        "Premium support"
+      ],
+      cta: "Go Pro Plus",
+      highlighted: true,
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Navigation */}
@@ -85,6 +139,7 @@ const Index = () => {
             
             <div className="hidden md:flex items-center space-x-12">
               <a href="#features" className="text-gray-700 hover:text-blue-600 transition-colors">Features</a>
+              <a href="#pricing" className="text-gray-700 hover:text-blue-600 transition-colors">Pricing</a>
               <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors">About</a>
               <a href="#testimonials" className="text-gray-700 hover:text-blue-600 transition-colors">Testimonials</a>
             </div>
@@ -201,6 +256,18 @@ const Index = () => {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 px-6">
+        <div className="container mx-auto">
+          <PricingSection
+            title="Simple, Transparent Pricing"
+            subtitle="Choose the perfect plan for your academic journey"
+            frequencies={["monthly", "yearly"]}
+            tiers={pricingTiers}
+          />
         </div>
       </section>
 
