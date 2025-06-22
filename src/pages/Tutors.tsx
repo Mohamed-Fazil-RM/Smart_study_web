@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -70,7 +69,7 @@ const Tutors = () => {
         <AppSidebar />
         <SidebarInset className="flex-1">
           {/* Header */}
-          <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200 dark:bg-gray-900/80 dark:border-gray-700">
+          <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200 dark:bg-gray-900/80 dark:border-gray-700">
             <div className="flex justify-between items-center h-16 px-6">
               <div className="flex items-center gap-4">
                 <SidebarTrigger className="h-7 w-7" />
@@ -85,7 +84,7 @@ const Tutors = () => {
           </header>
 
           {/* Main Content */}
-          <main className="pt-16 p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen">
+          <main className="pt-0 p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen">
             <div className="space-y-6">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Find Expert Tutors</h2>
@@ -199,4 +198,3 @@ const Tutors = () => {
 };
 
 export default Tutors;
-

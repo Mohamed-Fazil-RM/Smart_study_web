@@ -69,7 +69,7 @@ const HandDrawnSmileIcon = (props: React.SVGProps<SVGSVGElement>) => (
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <motion.path
+    <path
       d="M10 30 Q50 70 90 30"
       strokeWidth="12"
       strokeLinecap="round"
@@ -100,7 +100,7 @@ const FeedbackSlider = React.forwardRef<HTMLDivElement, FeedbackSliderProps>(
             animate={{ color: currentAnim.titleColor }}
             transition={transition}
           >
-            How was your experience with Smart Study?
+            How was your shopping experience?
           </motion.h3>
           <div className="flex h-[176px] flex-col items-center justify-center">
             <div className="flex items-center justify-center gap-8">
@@ -108,7 +108,7 @@ const FeedbackSlider = React.forwardRef<HTMLDivElement, FeedbackSliderProps>(
                 animate={{
                   width: currentAnim.eyeWidth,
                   height: currentAnim.eyeHeight,
-                  borderRadius: currentAnim.eyeBorderRadius,
+                  borderRadius: currentAnim.eyeBorderRadius,  
                   backgroundColor: currentAnim.eyeBg,
                 }}
                 transition={transition}
@@ -128,7 +128,9 @@ const FeedbackSlider = React.forwardRef<HTMLDivElement, FeedbackSliderProps>(
               animate={{ rotate: currentAnim.smileRotate }}
               transition={transition}
             >
-              <HandDrawnSmileIcon stroke={currentAnim.smileColor} />
+              <HandDrawnSmileIcon
+                style={{ stroke: currentAnim.smileColor }}
+              />
             </motion.div>
           </div>
           <div className="flex w-full items-center justify-start overflow-hidden pb-14 pt-7">
@@ -176,7 +178,9 @@ const FeedbackSlider = React.forwardRef<HTMLDivElement, FeedbackSliderProps>(
                 }}
                 transition={transition}
               >
-                <HandDrawnSmileIcon stroke={currentAnim.pathColor} />
+                <HandDrawnSmileIcon
+                  style={{ stroke: currentAnim.pathColor }}
+                />
               </motion.div>
             </div>
             <div className="flex w-full items-center justify-between pt-6">
