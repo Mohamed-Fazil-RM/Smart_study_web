@@ -92,7 +92,6 @@ const FeedbackSlider = React.forwardRef<HTMLDivElement, FeedbackSliderProps>(
         className={`relative flex h-screen w-full items-center justify-center overflow-hidden ${className}`}
         animate={{ backgroundColor: currentAnim.bgColor }}
         transition={transition}
-        {...props}
       >
         <div className="flex h-full w-[400px] flex-col items-center justify-center p-4">
           <motion.h3
