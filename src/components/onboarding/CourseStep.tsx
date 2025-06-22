@@ -13,7 +13,15 @@ interface CourseStepProps {
 const CourseStep = ({ data, updateData }: CourseStepProps) => {
   const [searchTerm, setSearchTerm] = useState(data.course || '');
   
-  const courses = [
+  const schoolCourses = [
+    "Bio Maths",
+    "Maths with Computer Science",
+    "Pure Science",
+    "Commerce",
+    "Arts/Humanities"
+  ];
+
+  const collegeCourses = [
     "Computer Science Engineering",
     "Information Technology",
     "Electronics and Communication",
@@ -32,6 +40,8 @@ const CourseStep = ({ data, updateData }: CourseStepProps) => {
     "Economics"
   ];
 
+  const courses = data.educationType === 'school' ? schoolCourses : collegeCourses;
+
   const filteredCourses = courses.filter(course =>
     course.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -47,17 +57,21 @@ const CourseStep = ({ data, updateData }: CourseStepProps) => {
         <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
           <BookOpen className="h-8 w-8 text-white" />
         </div>
-        <p className="text-gray-600 text-lg">What's your course?</p>
+        <p className="text-gray-600 text-lg">
+          {data.educationType === 'school' ? "What's your stream?" : "What's your course?"}
+        </p>
       </div>
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label className="text-gray-700 font-medium">Search for your course</Label>
+          <Label className="text-gray-700 font-medium">
+            {data.educationType === 'school' ? 'Search for your stream' : 'Search for your course'}
+          </Label>
           <div className="relative">
             <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
             <Input
               type="text"
-              placeholder="Type to search courses..."
+              placeholder={data.educationType === 'school' ? "Type to search streams..." : "Type to search courses..."}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 bg-white/50 border-gray-300"
@@ -86,7 +100,7 @@ const CourseStep = ({ data, updateData }: CourseStepProps) => {
             ) : (
               <Card className="bg-white/50">
                 <CardContent className="p-3">
-                  <p className="text-gray-500">No courses found. You can still continue with "{searchTerm}"</p>
+                  <p className="text-gray-500">No {data.educationType === 'school' ? 'streams' : 'courses'} found. You can still continue with "{searchTerm}"</p>
                 </CardContent>
               </Card>
             )}

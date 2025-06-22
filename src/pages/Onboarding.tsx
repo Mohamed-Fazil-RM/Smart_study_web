@@ -6,15 +6,22 @@ import { Progress } from '@/components/ui/progress';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import NameStep from '@/components/onboarding/NameStep';
+import SchoolCollegeStep from '@/components/onboarding/SchoolCollegeStep';
 import CollegeStep from '@/components/onboarding/CollegeStep';
+import SchoolStep from '@/components/onboarding/SchoolStep';
+import StandardStep from '@/components/onboarding/StandardStep';
 import DegreeStep from '@/components/onboarding/DegreeStep';
 import CourseStep from '@/components/onboarding/CourseStep';
 import YearStep from '@/components/onboarding/YearStep';
 
 interface OnboardingData {
   fullName: string;
+  educationType: string;
   region: string;
   college: string;
+  school: string;
+  board: string;
+  standard: string;
   degree: string;
   course: string;
   startYear: string;
@@ -25,20 +32,45 @@ const Onboarding = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [data, setData] = useState<OnboardingData>({
     fullName: '',
+    educationType: '',
     region: 'India',
     college: '',
+    school: '',
+    board: '',
+    standard: '',
     degree: '',
     course: '',
     startYear: ''
   });
 
-  const steps = [
-    { component: NameStep, title: "Let's get started!" },
-    { component: CollegeStep, title: "Tell us about your institution" },
-    { component: DegreeStep, title: "What's your degree level?" },
-    { component: CourseStep, title: "What's your course?" },
-    { component: YearStep, title: "When did you start?" }
-  ];
+  const getSteps = () => {
+    const baseSteps = [
+      { component: NameStep, title: "Let's get started!" },
+      { component: SchoolCollegeStep, title: "Tell us about your education" }
+    ];
+
+    if (data.educationType === 'school') {
+      return [
+        ...baseSteps,
+        { component: SchoolStep, title: "Tell us about your school" },
+        { component: StandardStep, title: "Which standard?" },
+        { component: CourseStep, title: "What's your stream?" },
+        { component: YearStep, title: "When did you start?" }
+      ];
+    } else if (data.educationType === 'college') {
+      return [
+        ...baseSteps,
+        { component: CollegeStep, title: "Tell us about your institution" },
+        { component: DegreeStep, title: "What's your degree level?" },
+        { component: CourseStep, title: "What's your course?" },
+        { component: YearStep, title: "When did you start?" }
+      ];
+    } else {
+      return baseSteps;
+    }
+  };
+
+  const steps = getSteps();
 
   const updateData = (newData: Partial<OnboardingData>) => {
     setData(prev => ({ ...prev, ...newData }));
