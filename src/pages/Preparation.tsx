@@ -1,4 +1,3 @@
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
@@ -12,11 +11,11 @@ const Preparation = () => {
         <AppSidebar />
         <SidebarInset className="flex-1">
           {/* Header */}
-          <header className="bg-white/80 backdrop-blur-lg border-b border-gray-200 sticky top-0 z-10">
+          <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200 dark:bg-gray-900/80 dark:border-gray-700">
             <div className="flex justify-between items-center h-16 px-6">
               <div className="flex items-center gap-4">
                 <SidebarTrigger className="h-7 w-7" />
-                <h1 className="text-xl font-semibold text-gray-900">Preparation</h1>
+                <h1 className="text-xl font-semibold text-gray-900 dark:text-white">Preparation</h1>
               </div>
               <div className="flex items-center space-x-4">
                 <Button variant="ghost" size="icon">
@@ -27,7 +26,7 @@ const Preparation = () => {
           </header>
 
           {/* Main Content */}
-          <main className="p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 min-h-[calc(100vh-4rem)]">
+          <main className="pt-16 p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen">
             <div className="space-y-6">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Preparation Hub</h2>

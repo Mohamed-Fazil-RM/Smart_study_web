@@ -1,175 +1,173 @@
 
-import React from 'react';
-import { BentoCard, BentoGrid } from '@/components/ui/bento-grid';
-import { HeroSection } from '@/components/ui/hero-section';
-import { 
-  HelpCircle, 
-  MessageSquare, 
-  BookOpen, 
-  Users, 
-  Video,
-  FileText,
-  Zap,
-  Brain,
-  ArrowRight,
-  Play
-} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/AppSidebar';
+import { MessageCircle, BookOpen, Users, Lightbulb, Bell, Bot, FileQuestion, Video } from 'lucide-react';
 
 const Assistance = () => {
-  const assistanceFeatures = [
-    {
-      Icon: MessageSquare,
-      name: "Live Chat Support",
-      description: "Get instant help from our support team. Available 24/7 to answer your questions and resolve issues.",
-      href: "/chat",
-      cta: "Start Chat",
-      background: (
-        <div className="absolute inset-0 bg-gradient-to-br from-sky-500/20 to-blue-600/20">
-          <div className="absolute -right-20 -top-20 w-40 h-40 bg-sky-400/30 rounded-full blur-xl" />
-          <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-blue-400/20 rounded-full blur-lg" />
-        </div>
-      ),
-      className: "lg:row-start-1 lg:row-end-3 lg:col-start-1 lg:col-end-2",
-    },
-    {
-      Icon: Brain,
-      name: "AI Study Assistant",
-      description: "Get personalized study recommendations, explanations, and academic guidance powered by AI.",
-      href: "/ai-assistant",
-      cta: "Try AI Assistant",
-      background: (
-        <div className="absolute inset-0 bg-gradient-to-br from-sky-500/20 to-cyan-600/20">
-          <div className="absolute -right-16 -top-16 w-36 h-36 bg-sky-400/30 rounded-full blur-xl" />
-          <div className="absolute -left-8 -bottom-8 w-28 h-28 bg-cyan-400/20 rounded-full blur-lg" />
-        </div>
-      ),
-      className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
-    },
-    {
-      Icon: BookOpen,
-      name: "Study Guides",
-      description: "Access comprehensive study guides and resources for all subjects and courses.",
-      href: "/guides",
-      cta: "Browse Guides",
-      background: (
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-sky-600/20">
-          <div className="absolute -right-14 -top-14 w-32 h-32 bg-blue-400/30 rounded-full blur-xl" />
-          <div className="absolute -left-6 -bottom-6 w-24 h-24 bg-sky-400/20 rounded-full blur-lg" />
-        </div>
-      ),
-      className: "lg:row-start-3 lg:row-end-4 lg:col-start-1 lg:col-end-2",
-    },
-    {
-      Icon: Video,
-      name: "Video Tutorials",
-      description: "Watch step-by-step video tutorials covering various academic topics and study techniques.",
-      href: "/tutorials",
-      cta: "Watch Videos",
-      background: (
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-sky-600/20">
-          <div className="absolute -right-12 -top-12 w-30 h-30 bg-cyan-400/30 rounded-full blur-xl" />
-          <div className="absolute -left-4 -bottom-4 w-20 h-20 bg-sky-400/20 rounded-full blur-lg" />
-        </div>
-      ),
-      className: "lg:row-start-1 lg:row-end-2 lg:col-start-3 lg:col-end-4",
-    },
-    {
-      Icon: Users,
-      name: "Peer Support",
-      description: "Connect with fellow students, join study groups, and get help from your academic community.",
-      href: "/peer-support",
-      cta: "Join Community",
-      background: (
-        <div className="absolute inset-0 bg-gradient-to-br from-sky-500/20 to-blue-600/20">
-          <div className="absolute -right-10 -top-10 w-28 h-28 bg-sky-400/30 rounded-full blur-xl" />
-          <div className="absolute -left-2 -bottom-2 w-16 h-16 bg-blue-400/20 rounded-full blur-lg" />
-        </div>
-      ),
-      className: "lg:row-start-2 lg:row-end-4 lg:col-start-3 lg:col-end-4",
-    },
-  ];
-
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <HeroSection
-        badge={{
-          text: "Need Academic Support?",
-          action: {
-            text: "Learn more",
-            href: "#features",
-          },
-        }}
-        title="Get the Help You Need"
-        description="Our comprehensive assistance platform provides multiple ways to get support, learn new concepts, and succeed in your academic journey."
-        actions={[
-          {
-            text: "Get Started",
-            href: "#features",
-            variant: "glow",
-            icon: <ArrowRight className="h-5 w-5" />,
-          },
-          {
-            text: "Watch Demo",
-            href: "/demo",
-            variant: "default",
-            icon: <Play className="h-5 w-5" />,
-          },
-        ]}
-        image={{
-          light: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=800&fit=crop&crop=center",
-          dark: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=800&fit=crop&crop=center",
-          alt: "Students collaborating and studying together",
-        }}
-      />
-
-      {/* Features Section */}
-      <div id="features" className="bg-white p-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Bento Grid */}
-          <div className="mb-12">
-            <BentoGrid className="lg:grid-rows-3 max-w-6xl mx-auto">
-              {assistanceFeatures.map((feature) => (
-                <BentoCard key={feature.name} {...feature} />
-              ))}
-            </BentoGrid>
-          </div>
-
-          {/* Additional Help Section */}
-          <div className="bg-gradient-to-br from-sky-50 to-blue-50 rounded-2xl p-8 shadow-lg border border-sky-100">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Need More Help?
-              </h2>
-              <p className="text-gray-600">
-                Can't find what you're looking for? Our support team is here to help.
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="text-center p-6 bg-white/70 rounded-xl hover:bg-white transition-colors shadow-sm">
-                <FileText className="w-8 h-8 text-sky-600 mx-auto mb-3" />
-                <h3 className="font-semibold mb-2">Documentation</h3>
-                <p className="text-sm text-gray-600">Browse our comprehensive docs</p>
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full">
+        <AppSidebar />
+        <SidebarInset className="flex-1">
+          {/* Header */}
+          <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200 dark:bg-gray-900/80 dark:border-gray-700">
+            <div className="flex justify-between items-center h-16 px-6">
+              <div className="flex items-center gap-4">
+                <SidebarTrigger className="h-7 w-7" />
+                <h1 className="text-xl font-semibold text-gray-900 dark:text-white">Assistance</h1>
               </div>
-              
-              <div className="text-center p-6 bg-white/70 rounded-xl hover:bg-white transition-colors shadow-sm">
-                <MessageSquare className="w-8 h-8 text-blue-600 mx-auto mb-3" />
-                <h3 className="font-semibold mb-2">Contact Support</h3>
-                <p className="text-sm text-gray-600">Reach out via email or chat</p>
-              </div>
-              
-              <div className="text-center p-6 bg-white/70 rounded-xl hover:bg-white transition-colors shadow-sm">
-                <Zap className="w-8 h-8 text-cyan-600 mx-auto mb-3" />
-                <h3 className="font-semibold mb-2">Quick Start</h3>
-                <p className="text-sm text-gray-600">Get started in minutes</p>
+              <div className="flex items-center space-x-4">
+                <Button variant="ghost" size="icon">
+                  <Bell className="h-4 w-4" />
+                </Button>
               </div>
             </div>
-          </div>
-        </div>
+          </header>
+
+          {/* Main Content */}
+          <main className="pt-16 p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Get Help & Assistance</h2>
+                <p className="text-gray-600 dark:text-gray-300">Find the support you need to succeed in your studies</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* AI Assistant */}
+                <Card className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow dark:bg-gray-800/80">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <Bot className="h-6 w-6 mr-3 text-blue-600" />
+                      AI Assistant
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">Get instant answers to your questions with our AI-powered assistant</p>
+                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600">
+                      Chat with AI
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Study Groups */}
+                <Card className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow dark:bg-gray-800/80">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <Users className="h-6 w-6 mr-3 text-green-600" />
+                      Study Groups
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">Join or create study groups with fellow students</p>
+                    <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-600">
+                      Find Groups
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Q&A Forum */}
+                <Card className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow dark:bg-gray-800/80">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <MessageCircle className="h-6 w-6 mr-3 text-purple-600" />
+                      Q&A Forum
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">Ask questions and get answers from the community</p>
+                    <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600">
+                      Browse Forum
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Video Tutorials */}
+                <Card className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow dark:bg-gray-800/80">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <Video className="h-6 w-6 mr-3 text-red-600" />
+                      Video Tutorials
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">Watch step-by-step tutorials for complex topics</p>
+                    <Button className="w-full bg-gradient-to-r from-red-600 to-orange-600">
+                      Watch Videos
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Study Materials */}
+                <Card className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow dark:bg-gray-800/80">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <BookOpen className="h-6 w-6 mr-3 text-teal-600" />
+                      Study Materials
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">Access curated study materials and resources</p>
+                    <Button className="w-full bg-gradient-to-r from-teal-600 to-cyan-600">
+                      Browse Materials
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Help Center */}
+                <Card className="bg-white/80 backdrop-blur-lg border-white/30 hover:shadow-lg transition-shadow dark:bg-gray-800/80">
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <FileQuestion className="h-6 w-6 mr-3 text-orange-600" />
+                      Help Center
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">Find answers to frequently asked questions</p>
+                    <Button className="w-full bg-gradient-to-r from-orange-600 to-yellow-600">
+                      Get Help
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Quick Tips Section */}
+              <Card className="bg-white/80 backdrop-blur-lg border-white/30 dark:bg-gray-800/80">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Lightbulb className="h-5 w-5 mr-2" />
+                    Quick Study Tips
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                      <h3 className="font-medium mb-2">Active Learning</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Engage with the material through discussions and practice problems</p>
+                    </div>
+                    <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                      <h3 className="font-medium mb-2">Spaced Repetition</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Review material at increasing intervals for better retention</p>
+                    </div>
+                    <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                      <h3 className="font-medium mb-2">Break It Down</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Divide complex topics into smaller, manageable chunks</p>
+                    </div>
+                    <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                      <h3 className="font-medium mb-2">Stay Organized</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Keep your notes and materials organized for easy access</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </main>
+        </SidebarInset>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
 
 export default Assistance;
+
