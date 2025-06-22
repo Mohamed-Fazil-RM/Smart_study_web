@@ -25,7 +25,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Plus, Image, Upload } from 'lucide-react';
+import { Plus, Image, Upload, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
@@ -45,6 +45,7 @@ interface NewPostDialogProps {
 export const NewPostDialog = ({ onPostCreated }: NewPostDialogProps) => {
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { toast } = useToast();
 
   const form = useForm<FormData>({
@@ -71,10 +72,20 @@ export const NewPostDialog = ({ onPostCreated }: NewPostDialogProps) => {
         return;
       }
       setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  const onSubmit = (data: FormData) => {
+  const removeImage = () => {
+    setSelectedImage(null);
+    setImagePreview(null);
+  };
+
+  const onSubmit = async (data: FormData) => {
     // Validate paid amount if paid task is selected
     if (data.isPaid && (!data.amount || parseFloat(data.amount) <= 0)) {
       form.setError('amount', { message: 'Please enter a valid amount' });
@@ -92,21 +103,35 @@ export const NewPostDialog = ({ onPostCreated }: NewPostDialogProps) => {
       type: data.isPaid ? 'collaboration' : 'help',
       college: 'Your College', // This would come from user profile
       payment: data.isPaid ? `₹${data.amount}` : undefined,
-      image: selectedImage ? URL.createObjectURL(selectedImage) : undefined,
+      image: imagePreview,
     };
 
-    // Call the callback to add the post
-    onPostCreated?.(newPost);
+    // Send to backend (placeholder for backend integration)
+    try {
+      // TODO: Replace with actual backend call
+      console.log('Sending post to backend:', newPost);
+      
+      // Call the callback to add the post
+      onPostCreated?.(newPost);
 
-    // Show success toast
-    toast({
-      title: "Post created successfully!",
-      description: "Your post has been published to the forum.",
-    });
+      // Show success toast
+      toast({
+        title: "Post created successfully!",
+        description: "Your post has been published to the forum.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to create post. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     // Reset form and close dialog
     form.reset();
     setSelectedImage(null);
+    setImagePreview(null);
     setOpen(false);
   };
 
@@ -141,6 +166,26 @@ export const NewPostDialog = ({ onPostCreated }: NewPostDialogProps) => {
               )}
             />
 
+            {/* Image Preview */}
+            {imagePreview && (
+              <div className="relative">
+                <img 
+                  src={imagePreview} 
+                  alt="Preview" 
+                  className="w-full max-h-48 object-cover rounded-lg border"
+                />
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="sm"
+                  className="absolute top-2 right-2"
+                  onClick={removeImage}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
+
             <FormField
               control={form.control}
               name="description"
@@ -172,7 +217,7 @@ export const NewPostDialog = ({ onPostCreated }: NewPostDialogProps) => {
                   <Button type="button" variant="outline" size="sm" asChild>
                     <span>
                       <Image className="h-4 w-4 mr-2" />
-                      Attach Image
+                      {selectedImage ? 'Change Image' : 'Attach Image'}
                     </span>
                   </Button>
                 </Label>

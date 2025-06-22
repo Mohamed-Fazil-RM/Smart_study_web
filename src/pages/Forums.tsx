@@ -6,15 +6,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/AppSidebar';
 import { NewPostDialog } from '@/components/forums/NewPostDialog';
-import { MessageSquare, Users, Plus, Search, Image, DollarSign, Bell } from 'lucide-react';
+import { MessageSquare, Users, Plus, Search, Image, DollarSign, Bell, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Forums = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const [publicPosts, setPublicPosts] = useState([
     {
       id: 1,
       title: 'Need help with Data Structures assignment',
+      description: 'Looking for guidance on implementing binary search trees',
       author: 'John Doe',
       time: '2 hours ago',
       replies: 5,
@@ -24,6 +27,7 @@ const Forums = () => {
     {
       id: 2,
       title: 'Looking for project partner - Web Development',
+      description: 'Building a full-stack e-commerce application using React and Node.js',
       author: 'Jane Smith',
       time: '4 hours ago',
       replies: 12,
@@ -39,8 +43,16 @@ const Forums = () => {
     { id: 3, name: 'Data Science Study Group', members: 642, active: false }
   ];
 
-  const handleNewPost = (newPost: any) => {
-    setPublicPosts([newPost, ...publicPosts]);
+  const handleNewPost = async (newPost: any) => {
+    // Send to backend (placeholder for backend integration)
+    try {
+      // TODO: Replace with actual backend call
+      console.log('Sending post to backend:', newPost);
+      
+      setPublicPosts([newPost, ...publicPosts]);
+    } catch (error) {
+      console.error('Failed to save post to backend:', error);
+    }
   };
 
   const filteredPosts = publicPosts.filter(post =>
@@ -57,6 +69,14 @@ const Forums = () => {
           <header className="bg-white/80 backdrop-blur-lg border-b border-gray-200 sticky top-0 z-10">
             <div className="flex justify-between items-center h-16 px-6">
               <div className="flex items-center gap-4">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => navigate('/dashboard')}
+                  className="h-7 w-7"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                </Button>
                 <SidebarTrigger className="h-7 w-7" />
                 <h1 className="text-xl font-semibold text-gray-900">Forums</h1>
               </div>
@@ -97,6 +117,22 @@ const Forums = () => {
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
                             <CardTitle className="text-lg mb-2">{post.title}</CardTitle>
+                            
+                            {/* Image Display */}
+                            {post.image && (
+                              <div className="mb-3">
+                                <img 
+                                  src={post.image} 
+                                  alt="Post attachment" 
+                                  className="w-full max-h-64 object-cover rounded-lg border"
+                                />
+                              </div>
+                            )}
+                            
+                            {post.description && (
+                              <p className="text-gray-600 mb-3 text-sm">{post.description}</p>
+                            )}
+                            
                             <div className="flex items-center space-x-4 text-sm text-gray-600">
                               <span>by {post.author}</span>
                               <span>{post.time}</span>
