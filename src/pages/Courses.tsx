@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,9 +6,11 @@ import { Input } from '@/components/ui/input';
 import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/AppSidebar';
 import { BookOpen, Plus, Search, FileText, Video, HelpCircle, Upload, Settings, Bell } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Courses = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const courses = [
     {
@@ -39,14 +42,14 @@ const Courses = () => {
         <AppSidebar />
         <SidebarInset className="flex-1">
           {/* Header */}
-          <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200 dark:bg-gray-900/80 dark:border-gray-700">
+          <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200 dark:bg-gray-900/80 dark:border-gray-700">
             <div className="flex justify-between items-center h-16 px-6">
               <div className="flex items-center gap-4">
                 <SidebarTrigger className="h-7 w-7" />
                 <h1 className="text-xl font-semibold text-gray-900 dark:text-white">Courses</h1>
               </div>
               <div className="flex items-center space-x-4">
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" onClick={() => navigate('/notifications')}>
                   <Bell className="h-4 w-4" />
                 </Button>
                 <Button variant="ghost">
@@ -58,7 +61,7 @@ const Courses = () => {
           </header>
 
           {/* Main Content */}
-          <main className="pt-16 p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen">
+          <main className="pt-0 p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen">
             <div className="space-y-6">
               {/* Search Bar */}
               <div className="relative">

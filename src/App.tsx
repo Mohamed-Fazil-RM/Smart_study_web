@@ -21,6 +21,7 @@ import Settings from "./pages/Settings";
 import Feedback from "./pages/Feedback";
 import ContactSupport from "./pages/ContactSupport";
 import HelpDesk from "./pages/HelpDesk";
+import Notifications from "./pages/Notifications";
 import GradeCalculator from "./pages/tools/GradeCalculator";
 import GradePrediction from "./pages/tools/GradePrediction";
 import PercentageCalculator from "./pages/tools/PercentageCalculator";
@@ -53,6 +54,7 @@ const App = () => (
             <Route path="/feedback" element={<Feedback />} />
             <Route path="/contact-support" element={<ContactSupport />} />
             <Route path="/help-desk" element={<HelpDesk />} />
+            <Route path="/notifications" element={<Notifications />} />
             <Route path="/tools/grade-calculator" element={<GradeCalculator />} />
             <Route path="/tools/grade-prediction" element={<GradePrediction />} />
             <Route path="/tools/percentage-calculator" element={<PercentageCalculator />} />
@@ -67,4 +69,3 @@ const App = () => (
 );
 
 export default App;
-
