@@ -61,7 +61,7 @@ const animationStates = [
 ];
 
 const HandDrawnSmileIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <motion.svg
+  <svg
     width="100%"
     height="100%"
     viewBox="0 0 100 60"
@@ -74,7 +74,7 @@ const HandDrawnSmileIcon = (props: React.SVGProps<SVGSVGElement>) => (
       strokeWidth="12"
       strokeLinecap="round"
     />
-  </motion.svg>
+  </svg>
 );
 
 export interface FeedbackSliderProps
@@ -84,7 +84,7 @@ const FeedbackSlider = React.forwardRef<HTMLDivElement, FeedbackSliderProps>(
   ({ className, ...props }, ref) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const currentAnim = animationStates[selectedIndex];
-    const transition = { type: "spring", stiffness: 300, damping: 30 };
+    const transition = { type: "spring" as const, stiffness: 300, damping: 30 };
 
     return (
       <motion.div
@@ -128,10 +128,7 @@ const FeedbackSlider = React.forwardRef<HTMLDivElement, FeedbackSliderProps>(
               animate={{ rotate: currentAnim.smileRotate }}
               transition={transition}
             >
-              <HandDrawnSmileIcon
-                animate={{ stroke: currentAnim.smileColor }}
-                transition={transition}
-              />
+              <HandDrawnSmileIcon stroke={currentAnim.smileColor} />
             </motion.div>
           </div>
           <div className="flex w-full items-center justify-start overflow-hidden pb-14 pt-7">
@@ -179,10 +176,7 @@ const FeedbackSlider = React.forwardRef<HTMLDivElement, FeedbackSliderProps>(
                 }}
                 transition={transition}
               >
-                <HandDrawnSmileIcon
-                  animate={{ stroke: currentAnim.pathColor }}
-                  transition={transition}
-                />
+                <HandDrawnSmileIcon stroke={currentAnim.pathColor} />
               </motion.div>
             </div>
             <div className="flex w-full items-center justify-between pt-6">
@@ -210,4 +204,3 @@ const FeedbackSlider = React.forwardRef<HTMLDivElement, FeedbackSliderProps>(
 FeedbackSlider.displayName = "FeedbackSlider";
 
 export default FeedbackSlider;
-

@@ -27,8 +27,8 @@ export const Component = () => {
   }, [happiness])
 
   useEffect(() => {
-    let timeout = null
-    let submissionStateTimeout = null
+    let timeout: NodeJS.Timeout | null = null
+    let submissionStateTimeout: NodeJS.Timeout | null = null
 
     if (isSent) {
       setSubmissionState(true)
@@ -82,7 +82,7 @@ export const Component = () => {
       </span>
       <motion.div
         aria-hidden={happiness ? false : true}
-        initial={{ height: 0, translateY: 15 }}
+        initial={{ height: 0, y: 15 }}
         className="px-2"
         transition={{ ease: 'easeInOut', duration: 0.3 }}
         animate={happiness ? { height: '195px', width: '330px' } : {}}>
@@ -186,4 +186,3 @@ const useSubmitFeedback = () => {
     isSent
   }
 }
-
