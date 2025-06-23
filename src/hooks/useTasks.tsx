@@ -35,7 +35,15 @@ export const useTasks = () => {
         .order('task_date', { ascending: true });
 
       if (error) throw error;
-      setTasks(data || []);
+      
+      // Type cast the data to ensure it matches our Task interface
+      const typedTasks = (data || []).map(task => ({
+        ...task,
+        task_type: task.task_type as 'study' | 'meet' | 'project' | 'assignment',
+        status: task.status as 'pending' | 'completed' | 'failed' | 'not_marked'
+      }));
+      
+      setTasks(typedTasks);
     } catch (error) {
       console.error('Error fetching tasks:', error);
     } finally {
@@ -52,9 +60,16 @@ export const useTasks = () => {
         .single();
 
       if (error) throw error;
-      setTasks(prev => [...prev, data]);
+      
+      const typedTask = {
+        ...data,
+        task_type: data.task_type as 'study' | 'meet' | 'project' | 'assignment',
+        status: data.status as 'pending' | 'completed' | 'failed' | 'not_marked'
+      };
+      
+      setTasks(prev => [...prev, typedTask]);
       toast.success('Task created successfully!');
-      return data;
+      return typedTask;
     } catch (error: any) {
       toast.error('Failed to create task: ' + error.message);
       throw error;
@@ -72,9 +87,16 @@ export const useTasks = () => {
         .single();
 
       if (error) throw error;
-      setTasks(prev => prev.map(task => task.id === id ? data : task));
+      
+      const typedTask = {
+        ...data,
+        task_type: data.task_type as 'study' | 'meet' | 'project' | 'assignment',
+        status: data.status as 'pending' | 'completed' | 'failed' | 'not_marked'
+      };
+      
+      setTasks(prev => prev.map(task => task.id === id ? typedTask : task));
       toast.success('Task updated successfully!');
-      return data;
+      return typedTask;
     } catch (error: any) {
       toast.error('Failed to update task: ' + error.message);
       throw error;

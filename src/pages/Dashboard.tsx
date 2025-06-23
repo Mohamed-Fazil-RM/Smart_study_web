@@ -79,12 +79,21 @@ const Dashboard = () => {
     setIsFullscreen(!isFullscreen);
   };
 
-  // Get today's tasks
-  const todaysTasks = tasks.filter(task => {
-    const taskDate = new Date(task.task_date);
-    const today = new Date();
-    return taskDate.toDateString() === today.toDateString();
-  });
+  // Get today's tasks and convert them to the format expected by ScheduleWidget
+  const todaysTasks = tasks
+    .filter(task => {
+      const taskDate = new Date(task.task_date);
+      const today = new Date();
+      return taskDate.toDateString() === today.toDateString();
+    })
+    .map(task => ({
+      id: parseInt(task.id.slice(-8), 16), // Convert UUID to number for compatibility
+      title: task.title,
+      description: task.description || '',
+      time: task.task_time,
+      date: new Date(task.task_date),
+      type: task.task_type
+    }));
 
   if (isFullscreen) {
     return <TimerComponent onFullscreenToggle={toggleFullscreen} isFullscreen={isFullscreen} />;
@@ -112,14 +121,14 @@ const Dashboard = () => {
                 </div>
 
                 <WelcomeBanner />
-                <StatsCards userStats={userStats} />
+                <StatsCards />
 
                 <div className="grid grid-cols-2 gap-6">
-                  <ForumTracking recentPosts={recentForumPosts} />
+                  <ForumTracking />
                   <TimerComponent onFullscreenToggle={toggleFullscreen} isFullscreen={isFullscreen} />
                 </div>
 
-                <AssignmentsWidget tasks={todaysTasks} />
+                <AssignmentsWidget />
               </div>
 
               <div className="w-80 space-y-6">

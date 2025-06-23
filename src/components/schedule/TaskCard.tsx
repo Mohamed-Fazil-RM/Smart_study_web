@@ -11,6 +11,7 @@ interface Task {
   task_time: string;
   task_type: 'study' | 'meet' | 'project' | 'assignment';
   status: 'pending' | 'completed' | 'failed' | 'not_marked';
+  created_at: string;
 }
 
 interface TaskCardProps {
