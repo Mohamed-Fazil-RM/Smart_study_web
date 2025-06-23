@@ -38,23 +38,16 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    --brand: 197 71% 52%;
-    --brand-foreground: 199 89% 48%;
+    --brand: 27 96% 61%;
+    --brand-foreground: 31 97% 72%;
   }
 
   .dark {
@@ -93,8 +86,8 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    --brand: 199 89% 48%;
-    --brand-foreground: 197 71% 52%;
+    --brand: 31 97% 72%;
+    --brand-foreground: 27 96% 61%
   }
 }
 

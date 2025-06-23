@@ -3,10 +3,50 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, Users, Calendar, TrendingUp, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { HeroSection } from '@/components/ui/hero-section';
+import { TestimonialsSection } from '@/components/ui/testimonials-with-marquee';
+import { Icons } from '@/components/ui/icons';
 
 const Index = () => {
+  const testimonials = [
+    {
+      author: {
+        name: "Emma Thompson",
+        handle: "@emmaai",
+        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face"
+      },
+      text: "Smart Study has completely transformed my learning experience. The task management and forum features are incredible!",
+      href: "https://twitter.com/emmaai"
+    },
+    {
+      author: {
+        name: "David Park",
+        handle: "@davidtech",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+      },
+      text: "The course organization and collaboration tools have helped me stay on top of my studies like never before.",
+      href: "https://twitter.com/davidtech"
+    },
+    {
+      author: {
+        name: "Sofia Rodriguez",
+        handle: "@sofiaml",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face"
+    },
+      text: "Finally, a platform that understands students' needs! The progress tracking keeps me motivated every day."
+    },
+    {
+      author: {
+        name: "Alex Chen",
+        handle: "@alexstudy",
+        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+      },
+      text: "The forum feature has connected me with amazing study partners. I've learned so much from the community!"
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="p-6">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -25,26 +65,38 @@ const Index = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Transform Your Learning Experience
-          </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Join thousands of students who are already learning smarter with our comprehensive study platform.
-            Organize your courses, connect with peers, and achieve your academic goals.
-          </p>
-          <Link to="/signup">
-            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 text-lg px-8 py-3">
-              Start Learning Today
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
-        </div>
-      </section>
+      <HeroSection
+        badge={{
+          text: "Introducing Smart Study",
+          action: {
+            text: "Learn more",
+            href: "#features",
+          },
+        }}
+        title="Transform Your Learning Experience"
+        description="Join thousands of students who are already learning smarter with our comprehensive study platform. Organize your courses, connect with peers, and achieve your academic goals."
+        actions={[
+          {
+            text: "Get Started",
+            href: "/signup",
+            variant: "glow",
+          },
+          {
+            text: "GitHub",
+            href: "https://github.com",
+            variant: "default",
+            icon: <Icons.gitHub className="h-5 w-5" />,
+          },
+        ]}
+        image={{
+          light: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1248&h=765&fit=crop",
+          dark: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1248&h=765&fit=crop",
+          alt: "Students studying together",
+        }}
+      />
 
-      {/* Features */}
-      <section className="py-16 px-6">
+      {/* Features Section */}
+      <section id="features" className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
             Everything You Need to Succeed
@@ -92,6 +144,13 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <TestimonialsSection
+        title="Trusted by students worldwide"
+        description="Join thousands of students who are already building their future with Smart Study"
+        testimonials={testimonials}
+      />
 
       {/* CTA Section */}
       <section className="py-16 px-6 bg-white/50">
