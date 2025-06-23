@@ -9,7 +9,280 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      course_materials: {
+        Row: {
+          course_id: string
+          created_at: string | null
+          description: string | null
+          file_type: string | null
+          file_url: string | null
+          id: string
+          material_type: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          course_id: string
+          created_at?: string | null
+          description?: string | null
+          file_type?: string | null
+          file_url?: string | null
+          id?: string
+          material_type?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string | null
+          description?: string | null
+          file_type?: string | null
+          file_url?: string | null
+          id?: string
+          material_type?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_materials_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      courses: {
+        Row: {
+          code: string | null
+          created_at: string | null
+          id: string
+          instructor: string | null
+          name: string
+          user_id: string
+        }
+        Insert: {
+          code?: string | null
+          created_at?: string | null
+          id?: string
+          instructor?: string | null
+          name: string
+          user_id: string
+        }
+        Update: {
+          code?: string | null
+          created_at?: string | null
+          id?: string
+          instructor?: string | null
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      forum_posts: {
+        Row: {
+          created_at: string | null
+          description: string
+          id: string
+          image_url: string | null
+          is_paid: boolean | null
+          payment_amount: number | null
+          post_type: string | null
+          title: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          description: string
+          id?: string
+          image_url?: string | null
+          is_paid?: boolean | null
+          payment_amount?: number | null
+          post_type?: string | null
+          title: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string
+          id?: string
+          image_url?: string | null
+          is_paid?: boolean | null
+          payment_amount?: number | null
+          post_type?: string | null
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      forum_replies: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          is_private: boolean | null
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          is_private?: boolean | null
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          is_private?: boolean | null
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_replies_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "forum_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          board: string | null
+          college: string | null
+          course: string | null
+          created_at: string | null
+          degree: string | null
+          education_type: string | null
+          full_name: string
+          id: string
+          region: string | null
+          school: string | null
+          standard: string | null
+          start_year: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          board?: string | null
+          college?: string | null
+          course?: string | null
+          created_at?: string | null
+          degree?: string | null
+          education_type?: string | null
+          full_name: string
+          id: string
+          region?: string | null
+          school?: string | null
+          standard?: string | null
+          start_year?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          board?: string | null
+          college?: string | null
+          course?: string | null
+          created_at?: string | null
+          degree?: string | null
+          education_type?: string | null
+          full_name?: string
+          id?: string
+          region?: string | null
+          school?: string | null
+          standard?: string | null
+          start_year?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          status: string | null
+          task_date: string
+          task_time: string
+          task_type: string | null
+          title: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          status?: string | null
+          task_date: string
+          task_time: string
+          task_type?: string | null
+          title: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          status?: string | null
+          task_date?: string
+          task_time?: string
+          task_type?: string | null
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_statistics: {
+        Row: {
+          forum_posts_created: number | null
+          forum_replies_made: number | null
+          id: string
+          resources_downloaded: number | null
+          resources_uploaded: number | null
+          tasks_completed: number | null
+          tasks_failed: number | null
+          tasks_not_marked: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          forum_posts_created?: number | null
+          forum_replies_made?: number | null
+          id?: string
+          resources_downloaded?: number | null
+          resources_uploaded?: number | null
+          tasks_completed?: number | null
+          tasks_failed?: number | null
+          tasks_not_marked?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          forum_posts_created?: number | null
+          forum_replies_made?: number | null
+          id?: string
+          resources_downloaded?: number | null
+          resources_uploaded?: number | null
+          tasks_completed?: number | null
+          tasks_failed?: number | null
+          tasks_not_marked?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

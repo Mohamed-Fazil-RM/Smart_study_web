@@ -5,6 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
+import { toast } from 'sonner';
 import NameStep from '@/components/onboarding/NameStep';
 import SchoolCollegeStep from '@/components/onboarding/SchoolCollegeStep';
 import CollegeStep from '@/components/onboarding/CollegeStep';
@@ -29,7 +32,9 @@ interface OnboardingData {
 
 const Onboarding = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState<OnboardingData>({
     fullName: '',
     educationType: '',
@@ -76,13 +81,54 @@ const Onboarding = () => {
     setData(prev => ({ ...prev, ...newData }));
   };
 
+  const saveProfile = async () => {
+    if (!user) return;
+    
+    setLoading(true);
+    
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          full_name: data.fullName,
+          education_type: data.educationType,
+          region: data.region,
+          college: data.college,
+          school: data.school,
+          board: data.board,
+          standard: data.standard,
+          degree: data.degree,
+          course: data.course,
+          start_year: data.startYear,
+          updated_at: new Date().toISOString()
+        });
+
+      if (error) throw error;
+
+      // Create default course if user has course info
+      if (data.course) {
+        await supabase.from('courses').insert({
+          user_id: user.id,
+          name: data.course,
+          code: data.educationType === 'school' ? data.standard : data.degree
+        });
+      }
+
+      toast.success('Profile saved successfully!');
+      navigate('/dashboard');
+    } catch (error: any) {
+      toast.error('Failed to save profile: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Save data to localStorage for profile
-      localStorage.setItem('userProfile', JSON.stringify(data));
-      navigate('/dashboard');
+      saveProfile();
     }
   };
 
@@ -130,9 +176,10 @@ const Onboarding = () => {
             
             <Button
               onClick={nextStep}
+              disabled={loading}
               className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 flex items-center gap-2"
             >
-              {currentStep === steps.length - 1 ? "Let's Go!" : "Continue"}
+              {loading ? 'Saving...' : currentStep === steps.length - 1 ? "Let's Go!" : "Continue"}
               <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
