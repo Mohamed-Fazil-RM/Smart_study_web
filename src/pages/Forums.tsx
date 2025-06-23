@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,11 +10,24 @@ import { NewPostDialog } from '@/components/forums/NewPostDialog';
 import { MessageSquare, Users, Plus, Search, Image, DollarSign, Bell, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+interface Post {
+  id: number;
+  title: string;
+  description?: string;
+  author: string;
+  time: string;
+  replies: number;
+  type: string;
+  college: string;
+  payment?: string;
+  image?: string;
+}
+
 const Forums = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
-  const [publicPosts, setPublicPosts] = useState([
+  const [publicPosts, setPublicPosts] = useState<Post[]>([
     {
       id: 1,
       title: 'Need help with Data Structures assignment',

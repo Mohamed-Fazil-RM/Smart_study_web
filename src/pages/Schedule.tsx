@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
@@ -37,8 +37,35 @@ const Schedule = () => {
     { id: 7, title: 'Project Presentation', date: 'Next Week', time: '2:00 PM', priority: 'medium' }
   ];
 
-  const handleTaskAdded = (newTask: Task) => {
+  // Load tasks from localStorage on component mount
+  useEffect(() => {
+    const savedTasks = localStorage.getItem('scheduleTasks');
+    if (savedTasks) {
+      const parsedTasks = JSON.parse(savedTasks).map((task: any) => ({
+        ...task,
+        date: new Date(task.date)
+      }));
+      setTasks(parsedTasks);
+    }
+  }, []);
+
+  // Save tasks to localStorage whenever tasks change
+  useEffect(() => {
+    localStorage.setItem('scheduleTasks', JSON.stringify(tasks));
+  }, [tasks]);
+
+  const handleTaskAdded = async (newTask: Task) => {
+    // Add task to state
     setTasks([...tasks, newTask]);
+    
+    // Send to backend for notifications
+    try {
+      console.log('Sending task to backend for notifications:', newTask);
+      // TODO: Replace with actual backend call
+      // await fetch('/api/tasks', { method: 'POST', body: JSON.stringify(newTask) });
+    } catch (error) {
+      console.error('Failed to send task to backend:', error);
+    }
   };
 
   const getTaskColor = (type: string) => {
@@ -61,6 +88,16 @@ const Schedule = () => {
 
   const getTasksForSelectedDate = () => {
     return tasks.filter(task => isSameDay(task.date, selectedDate));
+  };
+
+  const getTodaysTasks = () => {
+    const today = new Date();
+    return tasks.filter(task => isSameDay(task.date, today));
+  };
+
+  const getUpcomingTasks = () => {
+    const today = new Date();
+    return tasks.filter(task => task.date > today).slice(0, 6);
   };
 
   return (
@@ -156,6 +193,7 @@ const Schedule = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
+                    {/* Default tasks */}
                     {todaysTasks.map((task) => (
                       <div
                         key={task.id}
@@ -177,6 +215,22 @@ const Schedule = () => {
                           ) : (
                             <AlertCircle className="h-4 w-4 text-orange-600" />
                           )}
+                        </div>
+                      </div>
+                    ))}
+                    
+                    {/* User added tasks for today */}
+                    {getTodaysTasks().map((task) => (
+                      <div
+                        key={task.id}
+                        className={`p-3 rounded-lg border-l-4 ${getTaskColor(task.type)}`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1">
+                            <p className="text-sm font-medium">{task.title}</p>
+                            <p className="text-xs text-gray-600 capitalize">{task.type} • {task.time}</p>
+                          </div>
+                          <AlertCircle className="h-4 w-4 text-orange-600" />
                         </div>
                       </div>
                     ))}
@@ -226,6 +280,7 @@ const Schedule = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {/* Default upcoming tasks */}
                   {upcomingTasks.map((task) => (
                     <div
                       key={task.id}
@@ -238,6 +293,20 @@ const Schedule = () => {
                       <h4 className="font-medium text-sm mb-2">{task.title}</h4>
                       <div className="flex items-center justify-between text-xs text-gray-600">
                         <span>{task.date}</span>
+                        <span>{task.time}</span>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {/* User added upcoming tasks */}
+                  {getUpcomingTasks().map((task) => (
+                    <div
+                      key={task.id}
+                      className={`p-4 rounded-lg border ${getTaskColor(task.type).replace('bg-', 'border-').replace('-50', '-200')}`}
+                    >
+                      <h4 className="font-medium text-sm mb-2">{task.title}</h4>
+                      <div className="flex items-center justify-between text-xs text-gray-600">
+                        <span>{format(task.date, 'MMM d')}</span>
                         <span>{task.time}</span>
                       </div>
                     </div>
