@@ -50,7 +50,7 @@ const Signup = () => {
     try {
       const userData = {
         full_name: formData.fullName,
-        education_type: '',
+        education_type: 'school',
         region: 'India'
       };
 
