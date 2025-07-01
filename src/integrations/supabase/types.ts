@@ -158,6 +158,9 @@ export type Database = {
         Row: {
           avatar_url: string | null
           board: string | null
+          can_post_paid_jobs: boolean | null
+          can_take_paid_jobs: boolean | null
+          can_tutor: boolean | null
           college: string | null
           course: string | null
           created_at: string | null
@@ -174,6 +177,9 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           board?: string | null
+          can_post_paid_jobs?: boolean | null
+          can_take_paid_jobs?: boolean | null
+          can_tutor?: boolean | null
           college?: string | null
           course?: string | null
           created_at?: string | null
@@ -190,6 +196,9 @@ export type Database = {
         Update: {
           avatar_url?: string | null
           board?: string | null
+          can_post_paid_jobs?: boolean | null
+          can_take_paid_jobs?: boolean | null
+          can_tutor?: boolean | null
           college?: string | null
           course?: string | null
           created_at?: string | null
@@ -202,6 +211,30 @@ export type Database = {
           standard?: string | null
           start_year?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      subjects: {
+        Row: {
+          category: string | null
+          created_at: string
+          education_type: string
+          id: string
+          name: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          education_type?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          education_type?: string
+          id?: string
+          name?: string
         }
         Relationships: []
       }
@@ -282,6 +315,35 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      user_subjects: {
+        Row: {
+          created_at: string
+          id: string
+          subject_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          subject_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          subject_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_subjects_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

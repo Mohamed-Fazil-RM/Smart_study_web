@@ -16,6 +16,7 @@ import StandardStep from '@/components/onboarding/StandardStep';
 import DegreeStep from '@/components/onboarding/DegreeStep';
 import CourseStep from '@/components/onboarding/CourseStep';
 import YearStep from '@/components/onboarding/YearStep';
+import SubjectSelectionStep from '@/components/onboarding/SubjectSelectionStep';
 
 interface OnboardingData {
   fullName: string;
@@ -28,6 +29,7 @@ interface OnboardingData {
   degree: string;
   course: string;
   startYear: string;
+  selectedSubjects: string[];
 }
 
 const Onboarding = () => {
@@ -45,7 +47,8 @@ const Onboarding = () => {
     standard: '',
     degree: '',
     course: '',
-    startYear: ''
+    startYear: '',
+    selectedSubjects: []
   });
 
   const getSteps = () => {
@@ -60,6 +63,7 @@ const Onboarding = () => {
         { component: SchoolStep, title: "Tell us about your school" },
         { component: StandardStep, title: "Which standard?" },
         { component: CourseStep, title: "What's your stream?" },
+        { component: SubjectSelectionStep, title: "Select your subjects" },
         { component: YearStep, title: "When did you start?" }
       ];
     } else if (data.educationType === 'college') {
@@ -106,12 +110,22 @@ const Onboarding = () => {
 
       if (error) throw error;
 
-      // Create default course if user has course info
-      if (data.course) {
+      // Save selected subjects for school students
+      if (data.educationType === 'school' && data.selectedSubjects.length > 0) {
+        const subjectInserts = data.selectedSubjects.map(subjectId => ({
+          user_id: user.id,
+          subject_id: subjectId
+        }));
+        
+        await supabase.from('user_subjects').insert(subjectInserts);
+      }
+
+      // Create default course if user has course info (for college students)
+      if (data.course && data.educationType === 'college') {
         await supabase.from('courses').insert({
           user_id: user.id,
           name: data.course,
-          code: data.educationType === 'school' ? data.standard : data.degree
+          code: data.degree
         });
       }
 
