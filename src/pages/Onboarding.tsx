@@ -86,11 +86,18 @@ const Onboarding = () => {
   };
 
   const saveProfile = async () => {
-    if (!user) return;
+    if (!user) {
+      toast.error('Please sign up first');
+      navigate('/signup');
+      return;
+    }
     
     setLoading(true);
     
     try {
+      console.log('Saving profile for user:', user.id);
+      console.log('Profile data:', data);
+      
       const { error } = await supabase
         .from('profiles')
         .upsert({
@@ -108,30 +115,48 @@ const Onboarding = () => {
           updated_at: new Date().toISOString()
         });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Profile save error:', error);
+        throw error;
+      }
+
+      console.log('Profile saved successfully');
 
       // Save selected subjects for school students
       if (data.educationType === 'school' && data.selectedSubjects.length > 0) {
+        console.log('Saving subjects:', data.selectedSubjects);
         const subjectInserts = data.selectedSubjects.map(subjectId => ({
           user_id: user.id,
           subject_id: subjectId
         }));
         
-        await supabase.from('user_subjects').insert(subjectInserts);
+        const { error: subjectsError } = await supabase.from('user_subjects').insert(subjectInserts);
+        if (subjectsError) {
+          console.error('Subjects save error:', subjectsError);
+          throw subjectsError;
+        }
+        console.log('Subjects saved successfully');
       }
 
       // Create default course if user has course info (for college students)
       if (data.course && data.educationType === 'college') {
-        await supabase.from('courses').insert({
+        console.log('Creating course:', data.course);
+        const { error: courseError } = await supabase.from('courses').insert({
           user_id: user.id,
           name: data.course,
           code: data.degree
         });
+        if (courseError) {
+          console.error('Course save error:', courseError);
+          throw courseError;
+        }
+        console.log('Course saved successfully');
       }
 
       toast.success('Profile saved successfully!');
       navigate('/dashboard');
     } catch (error: any) {
+      console.error('Save profile error:', error);
       toast.error('Failed to save profile: ' + error.message);
     } finally {
       setLoading(false);
