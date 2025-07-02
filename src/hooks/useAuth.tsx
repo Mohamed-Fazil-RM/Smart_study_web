@@ -7,8 +7,9 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  signUp: (email: string, password: string, userData: any) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, userData: any) => Promise<{ error: any; user?: User | null; session?: Session | null }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
+  verifyOtp: (email: string, otp: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
 
@@ -44,7 +45,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signUp = async (email: string, password: string, userData: any) => {
     try {
       setLoading(true);
-      const redirectUrl = `${window.location.origin}/dashboard`;
       
       console.log('Attempting signup with data:', { email, userData });
       
@@ -52,8 +52,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email,
         password,
         options: {
-          emailRedirectTo: redirectUrl,
-          data: userData
+          data: userData,
+          emailRedirectTo: undefined // Remove email confirmation
         }
       });
 
@@ -63,9 +63,35 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       console.log('Signup successful:', data);
-      return { error: null };
+      return { error: null, user: data.user, session: data.session };
     } catch (error) {
       console.error('Signup exception:', error);
+      return { error };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const verifyOtp = async (email: string, otp: string) => {
+    try {
+      setLoading(true);
+      console.log('Verifying OTP for:', email);
+      
+      const { data, error } = await supabase.auth.verifyOtp({
+        email,
+        token: otp,
+        type: 'signup'
+      });
+
+      if (error) {
+        console.error('OTP verification error:', error);
+        return { error };
+      }
+
+      console.log('OTP verification successful:', data);
+      return { error: null };
+    } catch (error) {
+      console.error('OTP verification exception:', error);
       return { error };
     } finally {
       setLoading(false);
@@ -109,6 +135,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       loading,
       signUp,
       signIn,
+      verifyOtp,
       signOut
     }}>
       {children}

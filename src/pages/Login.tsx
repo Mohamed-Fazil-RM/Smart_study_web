@@ -1,11 +1,12 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 const Login = () => {
@@ -17,10 +18,38 @@ const Login = () => {
     password: ''
   });
 
-  // Redirect if already authenticated
+  // Check if already authenticated and handle redirect
+  useEffect(() => {
+    if (user) {
+      const checkProfileAndRedirect = async () => {
+        try {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('full_name, education_type')
+            .eq('id', user.id)
+            .single();
+          
+          if (profile && profile.full_name && profile.education_type) {
+            navigate('/dashboard');
+          } else {
+            navigate('/onboarding');
+          }
+        } catch (error) {
+          console.error('Error checking profile:', error);
+          navigate('/dashboard');
+        }
+      };
+      
+      checkProfileAndRedirect();
+    }
+  }, [user, navigate]);
+
   if (user) {
-    navigate('/dashboard');
-    return null;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+      </div>
+    );
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +79,27 @@ const Login = () => {
       }
 
       toast.success('Signed in successfully!');
-      navigate('/dashboard');
+      
+      // Get current user to check profile completion
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      
+      if (currentUser) {
+        // Check if user has completed onboarding
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('full_name, education_type')
+          .eq('id', currentUser.id)
+          .single();
+        
+        // If profile exists and has basic info, go to dashboard, otherwise go to onboarding
+        if (profile && profile.full_name && profile.education_type) {
+          navigate('/dashboard');
+        } else {
+          navigate('/onboarding');
+        }
+      } else {
+        navigate('/dashboard');
+      }
     } catch (error: any) {
       console.error('Login exception:', error);
       toast.error('An unexpected error occurred. Please try again.');
