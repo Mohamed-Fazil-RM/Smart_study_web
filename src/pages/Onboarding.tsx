@@ -120,6 +120,10 @@ const Onboarding = () => {
           degree: data.degree,
           course: data.course,
           start_year: data.startYear,
+          // Set permissions based on education type
+          can_tutor: data.educationType === 'college',
+          can_take_paid_jobs: data.educationType === 'college',
+          can_post_paid_jobs: true, // All users can post paid jobs
           updated_at: new Date().toISOString()
         });
 
