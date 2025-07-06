@@ -175,7 +175,96 @@ const Onboarding = () => {
     }
   };
 
+  const validateCurrentStep = () => {
+    const currentStepTitle = steps[currentStep].title;
+    
+    // Name step validation
+    if (currentStepTitle.includes("Let's get started")) {
+      if (!data.fullName.trim()) {
+        toast.error('Please enter your full name');
+        return false;
+      }
+    }
+    
+    // Education type selection
+    if (currentStepTitle.includes("Tell us about your education")) {
+      if (!data.educationType) {
+        toast.error('Please select school or college');
+        return false;
+      }
+    }
+    
+    // School-specific validations
+    if (data.educationType === 'school') {
+      if (currentStepTitle.includes("Tell us about your school")) {
+        if (!data.school?.trim() || !data.board) {
+          toast.error('Please fill in your school name and board');
+          return false;
+        }
+      }
+      
+      if (currentStepTitle.includes("Which standard")) {
+        if (!data.standard) {
+          toast.error('Please select your standard');
+          return false;
+        }
+      }
+      
+      if (currentStepTitle.includes("What's your stream")) {
+        if (!data.course?.trim()) {
+          toast.error('Please select or enter your stream');
+          return false;
+        }
+      }
+      
+      if (currentStepTitle.includes("Select your subjects")) {
+        if (!data.selectedSubjects || data.selectedSubjects.length === 0) {
+          toast.error('Please select at least one subject');
+          return false;
+        }
+      }
+    }
+    
+    // College-specific validations
+    if (data.educationType === 'college') {
+      if (currentStepTitle.includes("Tell us about your institution")) {
+        if (!data.college) {
+          toast.error('Please select your college/university');
+          return false;
+        }
+      }
+      
+      if (currentStepTitle.includes("degree level")) {
+        if (!data.degree) {
+          toast.error('Please select your degree level');
+          return false;
+        }
+      }
+      
+      if (currentStepTitle.includes("What's your course")) {
+        if (!data.course?.trim()) {
+          toast.error('Please select or enter your course');
+          return false;
+        }
+      }
+    }
+    
+    // Start year validation (for both school and college)
+    if (currentStepTitle.includes("When did you start")) {
+      if (!data.startYear) {
+        toast.error('Please select your start year');
+        return false;
+      }
+    }
+    
+    return true;
+  };
+
   const nextStep = () => {
+    if (!validateCurrentStep()) {
+      return;
+    }
+    
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
