@@ -9,6 +9,7 @@ interface AuthContextType {
   loading: boolean;
   signUp: (email: string, password: string, userData: any) => Promise<{ error: any; user?: User | null; session?: Session | null }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
+  signInWithGoogle: () => Promise<{ error: any }>;
   verifyOtp: (email: string, otp: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
@@ -123,6 +124,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      setLoading(true);
+      console.log('Attempting Google signin');
+      
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/`
+        }
+      });
+
+      if (error) {
+        console.error('Google signin error:', error);
+        return { error };
+      }
+
+      console.log('Google signin initiated:', data);
+      return { error: null };
+    } catch (error) {
+      console.error('Google signin exception:', error);
+      return { error };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const signOut = async () => {
     console.log('Signing out...');
     await supabase.auth.signOut();
@@ -135,6 +163,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       loading,
       signUp,
       signIn,
+      signInWithGoogle,
       verifyOtp,
       signOut
     }}>
